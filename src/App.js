@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
-import VideoListing from "./pages/VideoListing";
+// import VideoListing from "./pages/VideoListing";
+import Home from "./pages/Home";
 import "./App.css";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
 			<Navbar />
 			<div className="main-container">
 				<Routes>
-					<Route path="/" element={<VideoListing />} />
+					<Route path="/" element={<Home />} />
 					<Route path="/my-playlists" element={<h2>PlayLists Page</h2>} />
 					<Route path="/liked-videos" element={<h2>Liked Videos Page</h2>} />
 					<Route path="/watch-later" element={<h2>Watch Later Page</h2>} />

@@ -3,9 +3,11 @@
 body {
 	margin: 0;
 	font-family: "Open Sans", sans-serif;
+	background-color: #111827;
 	min-height: 100vh;
 }
 
 .main-container {
 	margin-top: 5rem;
+	background-color: #111827;
 }

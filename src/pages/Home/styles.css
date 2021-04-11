@@ -1,0 +1,18 @@
+.video-thumbnail-card {
+	width: 100%;
+	min-height: 200px;
+	display: flex;
+	color: var(--background-color);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.content {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+}
+
+.icon-container svg {
+	width: 15px;
+	height: 15px;
+}
