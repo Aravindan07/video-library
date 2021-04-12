@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
 // import VideoListing from "./pages/VideoListing";
 import Home from "./pages/Home";
+import VideoPage from "./pages/VideoPage";
 import "./App.css";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 					<Route path="/liked-videos" element={<h2>Liked Videos Page</h2>} />
 					<Route path="/watch-later" element={<h2>Watch Later Page</h2>} />
 					<Route path="/my-account" element={<h2>My Account Page</h2>} />
+					<Route path="/video/:id" element={<VideoPage />} />
 				</Routes>
 			</div>
 		</div>

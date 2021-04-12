@@ -5,6 +5,7 @@ body {
 	font-family: "Open Sans", sans-serif;
 	background-color: #111827;
 	min-height: 100vh;
+	color: var(--background-color);
 }
 
 .main-container {
