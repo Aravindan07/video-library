@@ -3,12 +3,12 @@
 body {
 	margin: 0;
 	font-family: "Open Sans", sans-serif;
-	background-color: #111827;
+	background-color: var(--background-color);
 	min-height: 100vh;
-	color: var(--background-color);
+	color: var(--font-color);
 }
 
 .main-container {
 	margin-top: 5rem;
-	background-color: #111827;
+	background-color: var(--background-color);
 }

@@ -2,7 +2,7 @@
 	width: 100%;
 	min-height: 200px;
 	display: flex;
-	color: var(--background-color);
+	color: var(--font-color);
 	box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
 
