@@ -1,0 +1,9 @@
+.selected {
+	border-radius: 5px;
+}
+.selected:hover {
+	background-color: #dffcee;
+}
+.selected:focus {
+	background-color: #dffcee;
+}

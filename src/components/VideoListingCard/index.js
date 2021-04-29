@@ -3,6 +3,7 @@ import { ReactComponent as VideoIcon } from "../../icons/video.svg";
 import { ReactComponent as VideoViewIcon } from "../../icons/video-view.svg";
 import { ReactComponent as HeartIcon } from "../../icons/heart.svg";
 import { useNavigate } from "react-router";
+import "./styles.css";
 
 function VideoListingCard({ video }) {
 	const navigate = useNavigate();
@@ -15,7 +16,11 @@ function VideoListingCard({ video }) {
 			className="video-thumbnail-card mt-32 mb-32 br-5 c-pointer ls-medium-px"
 			onClick={() => showVideoPage()}
 		>
-			<img className="img-w300-h200 br-10" src={video.imageUrl} alt="Thumbnail" />
+			<img
+				className="img-w300-h200 border-radius-tl-bl-5"
+				src={video.imageUrl}
+				alt="Thumbnail"
+			/>
 			<div className="padding-l16 padding-r16 padding-t16 padding-b16 content">
 				<small className="mb-5">
 					<b>Published on:</b> {video.publishedDate}

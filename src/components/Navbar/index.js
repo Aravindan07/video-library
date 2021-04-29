@@ -14,16 +14,30 @@ function Navbar() {
 					</div>
 				</Link>
 				<div className="flex-row-space-between w40">
-					<Link className="font-color--white nav__links fw-600 ls-1 mr-16 ml-16" to="/">
+					{/* <Link className="font-color--white nav__links fw-600 ls-1 mr-16 ml-16" to="/">
 						Home
+					</Link> */}
+					<Link to="/my-account">
+						{/* <img
+							className="avatar--medium rounded-image navbar-image"
+							src="https://polish-ui.netlify.app/icons/fallback.svg"
+							alt="Avatar"
+							height="100%"
+						/> */}
+						<button className="button button--error">Sign In</button>
 					</Link>
-					<Link
-						className="font-color--white nav__links fw-600 ls-1 mr-16 ml-16"
-						to="/my-playlists"
-					>
-						PlayLists
+					<Link to="/my-account">
+						{/* <img
+							className="avatar--medium rounded-image navbar-image"
+							src="https://polish-ui.netlify.app/icons/fallback.svg"
+							alt="Avatar"
+							height="100%"
+						/> */}
+						<button className="button navbar--button ml-16 font-color--white">
+							Register
+						</button>
 					</Link>
-					<Link
+					{/* <Link
 						className="font-color--white nav__links fw-600 ls-1 mr-16 ml-16"
 						to="/liked-videos"
 					>
@@ -40,7 +54,7 @@ function Navbar() {
 						to="/my-account"
 					>
 						My Account
-					</Link>
+					</Link> */}
 				</div>
 			</div>
 		</nav>

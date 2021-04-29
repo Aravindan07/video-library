@@ -3,13 +3,15 @@ import { Routes, Route } from "react-router-dom";
 // import VideoListing from "./pages/VideoListing";
 import Home from "./pages/Home";
 import VideoPage from "./pages/VideoPage";
+import Sidebar from "./components/Sidebar";
 import "./App.css";
 
 function App() {
 	return (
-		<div className="flex-col">
+		<div className="app__container">
 			<Navbar />
-			<div className="main-container">
+			<Sidebar />
+			<main className="padding-r24 padding-l24">
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/my-playlists" element={<h2>PlayLists Page</h2>} />
@@ -18,7 +20,7 @@ function App() {
 					<Route path="/my-account" element={<h2>My Account Page</h2>} />
 					<Route path="/video/:id" element={<VideoPage />} />
 				</Routes>
-			</div>
+			</main>
 		</div>
 	);
 }
