@@ -1,9 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useVideoDataContext } from "../../context/videoDataContext";
 import { ReactComponent as Logo } from "../../icons/movie-icon.svg";
 import "./styles.css";
 
 function Navbar() {
+	const value = useVideoDataContext();
+	console.log(value.state);
 	return (
 		<nav className="navbar navbar__list">
 			<div className="flex-row-space-between w100">
@@ -24,7 +27,7 @@ function Navbar() {
 							alt="Avatar"
 							height="100%"
 						/> */}
-						<button className="button button--error">Sign In</button>
+						<button className="button navbar--button font-color--white">Sign In</button>
 					</Link>
 					<Link to="/my-account">
 						{/* <img
@@ -37,24 +40,6 @@ function Navbar() {
 							Register
 						</button>
 					</Link>
-					{/* <Link
-						className="font-color--white nav__links fw-600 ls-1 mr-16 ml-16"
-						to="/liked-videos"
-					>
-						Liked Videos
-					</Link>
-					<Link
-						className="font-color--white nav__links fw-600 ls-1 mr-16 ml-16"
-						to="/watch-later"
-					>
-						Watch later
-					</Link>
-					<Link
-						className="font-color--white nav__links fw-600 ls-1 mr-16 ml-16"
-						to="/my-account"
-					>
-						My Account
-					</Link> */}
 				</div>
 			</div>
 		</nav>

@@ -4,9 +4,16 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import VideoPage from "./pages/VideoPage";
 import Sidebar from "./components/Sidebar";
+import LikedVideosPage from "./pages/LikedVideos";
 import "./App.css";
+import { useVideoDataContext } from "./context/videoDataContext";
+import { useEffect } from "react";
 
 function App() {
+	const { loadVideosData } = useVideoDataContext();
+	useEffect(() => {
+		loadVideosData();
+	}, []);
 	return (
 		<div className="app__container">
 			<Navbar />
@@ -15,7 +22,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/my-playlists" element={<h2>PlayLists Page</h2>} />
-					<Route path="/liked-videos" element={<h2>Liked Videos Page</h2>} />
+					<Route path="/liked-videos" element={<LikedVideosPage />} />
 					<Route path="/watch-later" element={<h2>Watch Later Page</h2>} />
 					<Route path="/my-account" element={<h2>My Account Page</h2>} />
 					<Route path="/video/:id" element={<VideoPage />} />

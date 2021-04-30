@@ -1,3 +1,10 @@
+export const initialState = {
+	videosData: [],
+	likedVideos: [],
+	playlists: [],
+	watchLater: [],
+};
+
 export const videoData = [
 	{
 		id: "1",
@@ -12,8 +19,8 @@ export const videoData = [
 		watchLater: false,
 		playLists: [],
 		views: "1.5M",
-		likes: "9.6k",
-		dislikes: "352",
+		likes: "0",
+		dislikes: "0",
 		watchLength: "2:00",
 		publishedDate: "Oct 5,2018",
 		channel: "ICC",
@@ -31,8 +38,8 @@ export const videoData = [
 		watchLater: false,
 		playLists: [],
 		views: "66,408",
-		likes: "512",
-		dislikes: "33",
+		likes: "0",
+		dislikes: "0",
 		watchLength: "2:00",
 		publishedDate: "Jul 11,2019",
 		channel: "Global News",
@@ -49,8 +56,8 @@ export const videoData = [
 		watchLater: false,
 		playLists: [],
 		views: "29k",
-		likes: "786",
-		dislikes: "9",
+		likes: "0",
+		dislikes: "0",
 		watchLength: "25:12",
 		publishedDate: "Aug 25,2020",
 		channel: "Lord's Cricket Ground",
@@ -68,8 +75,8 @@ export const videoData = [
 		watchLater: false,
 		playLists: [],
 		views: "1.5M",
-		likes: "18k",
-		dislikes: "767",
+		likes: "0",
+		dislikes: "0",
 		watchLength: "12:07",
 		publishedDate: "Aug 7,2019",
 		channel: "Ben Williams - My Cricket Coach",
@@ -87,10 +94,14 @@ export const videoData = [
 		watchLater: false,
 		playLists: [],
 		views: "4.6M",
-		likes: "18k",
-		dislikes: "767",
+		likes: "0",
+		dislikes: "0",
 		watchLength: "12:07",
 		publishedDate: "Aug 7,2019",
 		channel: "Ben Williams - My Cricket Coach",
 	},
 ];
+
+export const LOAD__VIDEOS__DATA = "LOAD__VIDEOS__DATA";
+export const ADD__TO__LIKED__VIDEOS = "ADD__TO__LIKED__VIDEOS";
+export const ADD__TO__WATCH__LATER = "ADD__TO__WATCH__LATER";
