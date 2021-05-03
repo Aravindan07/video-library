@@ -5,9 +5,10 @@ import Home from "./pages/Home";
 import VideoPage from "./pages/VideoPage";
 import Sidebar from "./components/Sidebar";
 import LikedVideosPage from "./pages/LikedVideos";
-import "./App.css";
+import ModalComponent from "./components/Modal";
 import { useVideoDataContext } from "./context/videoDataContext";
 import { useEffect } from "react";
+import "./App.css";
 
 function App() {
 	const { loadVideosData } = useVideoDataContext();
@@ -18,6 +19,7 @@ function App() {
 		<div className="app__container">
 			<Navbar />
 			<Sidebar />
+			<ModalComponent />
 			<main className="padding-r24 padding-l24">
 				<Routes>
 					<Route path="/" element={<Home />} />
