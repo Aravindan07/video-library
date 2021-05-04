@@ -1,8 +1,13 @@
 export const initialState = {
 	videosData: [],
 	likedVideos: [],
-	playlists: [{ playlistId: "1", playListName: "Batting", videos: [{}, {}] }],
+	playlists: [],
 	watchLater: [],
+	modal: {
+		isModalOpen: false,
+		modalType: "",
+		data: null,
+	},
 };
 
 export const videoData = [
@@ -111,3 +116,9 @@ export const LOAD__VIDEOS__DATA = "LOAD__VIDEOS__DATA";
 export const ADD__TO__LIKED__VIDEOS = "ADD__TO__LIKED__VIDEOS";
 export const ADD__TO__WATCH__LATER = "ADD__TO__WATCH__LATER";
 export const CLICKED__ON__DISLIKE = "CLICKED__ON__DISLIKE";
+export const OPEN__MODAL = "OPEN__MODAL";
+export const CLOSE__MODAL = "CLOSE__MODAL";
+export const ADD__TO__PLAYLIST = "ADD__TO__PLAYLIST";
+export const ADD__VIDEO__TO__EXISTING__PLAYLIST = "ADD__VIDEO__TO__EXISTING__PLAYLIST";
+export const REMOVE__VIDEO__FROM__PLAYLIST = "REMOVE__VIDEO__FROM__PLAYLIST";
+export const REMOVE__PLAYLIST = "REMOVE__PLAYLIST";

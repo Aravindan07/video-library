@@ -1,30 +1,55 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
+import { CLOSE__MODAL } from "../../constants";
+import { useVideoDataContext } from "../../context/videoDataContext";
+import AddPlaylist from "./AddPlaylist";
+import ChoosePlayList from "./ChoosePlaylist";
 
-function ModalComponent({ isOpen, closeModal }) {
-	console.log("Inside Modal");
+const modalList = {
+	addPlaylist: AddPlaylist,
+	choosePlaylist: ChoosePlayList,
+};
+
+function ModalComponent() {
+	const {
+		dispatch,
+		state: { modal },
+	} = useVideoDataContext();
 	useEffect(() => {
 		Modal.setAppElement("#root");
 	});
 
-	const customStyles = {
-		content: {
-			top: "50%",
-			left: "50%",
-			right: "auto",
-			bottom: "auto",
-			marginRight: "-50%",
-			transform: "translate(-50%, -50%)",
-		},
+	const closeModal = () => {
+		return dispatch({ type: CLOSE__MODAL });
 	};
+
+	const overlay = {
+		backgroundColor: "rgba(0,0,0,0.8)",
+	};
+
+	const content = {
+		width: "50%",
+		height: "50%",
+		margin: "auto",
+		borderRadius: "5px",
+		padding: "30px 20px 20px 20px",
+		zIndex: "10",
+	};
+
+	const ModalToShow = modalList[modal.modalType];
 
 	return (
 		<Modal
-			isOpen={isOpen}
+			isOpen={modal.isModalOpen}
 			onRequestClose={closeModal}
-			style={customStyles}
+			style={{
+				overlay: overlay,
+				content: content,
+			}}
 			contentLabel="Example Modal"
-		/>
+		>
+			{modal.isModalOpen && <ModalToShow data={modal.data} />}
+		</Modal>
 	);
 }
 

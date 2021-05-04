@@ -5,14 +5,14 @@ import { ReactComponent as VideoViewsIcon } from "../../icons/video-view.svg";
 import { ReactComponent as LikesIcon } from "../../icons/thumbs-up.svg";
 import { ReactComponent as DislikesIcon } from "../../icons/thumbs-down.svg";
 import { ReactComponent as AddPlaylistIcon } from "../../icons/add-playlist.svg";
-import ModalComponent from "../../components/Modal";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import "./styles.css";
+import { OPEN__MODAL } from "../../constants";
 
 function VideoPage() {
 	const { id } = useParams();
 
-	const { state, addVideoToLikedVideos, dislikeClickHandler } = useVideoDataContext();
+	const { state, addVideoToLikedVideos, dislikeClickHandler, dispatch } = useVideoDataContext();
 	console.log(state);
 
 	const dataToShow = state.videosData.find((item) => item.videoId === id);
@@ -30,7 +30,10 @@ function VideoPage() {
 
 	const openModalHandler = () => {
 		console.log("Inside modal open handler");
-		return <ModalComponent isOpen={true} onRequestClose={true} />;
+		return dispatch({
+			type: OPEN__MODAL,
+			payload: { modalType: "addPlaylist", data: dataToShow },
+		});
 	};
 
 	return (

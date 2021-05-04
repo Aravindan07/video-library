@@ -4,4 +4,11 @@
 	display: flex;
 	color: var(--font-color);
 	box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+	position: relative;
+}
+
+.delete-icon {
+	position: absolute;
+	right: 1rem;
+	top: 0.5rem;
 }

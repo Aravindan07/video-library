@@ -1,7 +1,13 @@
 import {
 	ADD__TO__LIKED__VIDEOS,
+	ADD__TO__PLAYLIST,
+	ADD__VIDEO__TO__EXISTING__PLAYLIST,
 	CLICKED__ON__DISLIKE,
+	CLOSE__MODAL,
 	LOAD__VIDEOS__DATA,
+	OPEN__MODAL,
+	REMOVE__PLAYLIST,
+	REMOVE__VIDEO__FROM__PLAYLIST,
 	videoData,
 } from "../constants";
 
@@ -67,6 +73,64 @@ export const videoDataReducer = (state, action) => {
 									  }
 									: el
 						  ),
+			};
+
+		case OPEN__MODAL:
+			return {
+				...state,
+				modal: {
+					...state.modal,
+					isModalOpen: true,
+					modalType: action.payload.modalType,
+					data: action.payload.data,
+				},
+			};
+
+		case CLOSE__MODAL:
+			return {
+				...state,
+				modal: {
+					...state.modal,
+					isModalOpen: false,
+				},
+			};
+
+		case ADD__TO__PLAYLIST:
+			return {
+				...state,
+				playlists: [...state.playlists, action.payload],
+			};
+
+		case ADD__VIDEO__TO__EXISTING__PLAYLIST:
+			console.log("inside existing playlist", action, state);
+			return {
+				...state,
+				playlists: state.playlists.map((el) =>
+					el.playlistId === action.payload.playlistId
+						? { ...el, videos: [...el.videos, action.payload.data] }
+						: el
+				),
+			};
+
+		case REMOVE__VIDEO__FROM__PLAYLIST:
+			return {
+				...state,
+				playlists: state.playlists.map((el) =>
+					el.playlistId === action.payload.playlistId
+						? {
+								...el,
+								videos: el.videos.filter((video) => video.id !== action.payload.id),
+						  }
+						: el
+				),
+			};
+
+		case REMOVE__PLAYLIST:
+			return {
+				...state,
+				playlists: state.playlists.filter(
+					(el) => el.playlistId !== action.payload.playlistId
+				),
 			};
 
 		default:
