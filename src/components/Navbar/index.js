@@ -8,8 +8,7 @@ import { useMediaQuery } from "../../utils/useMediaQueries";
 import "./styles.css";
 
 function Navbar() {
-	const { state, dispatch } = useVideoDataContext();
-	console.log(state, "state");
+	const { dispatch } = useVideoDataContext();
 
 	const [width] = useMediaQuery();
 

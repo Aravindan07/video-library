@@ -1,11 +1,7 @@
 import { useState } from "react";
-import {
-	ADD__VIDEO__TO__EXISTING__PLAYLIST,
-	CLOSE__MODAL,
-	OPEN__MODAL,
-	videoData,
-} from "../../../constants";
+import { ADD__VIDEO__TO__EXISTING__PLAYLIST, CLOSE__MODAL, OPEN__MODAL } from "../../../constants";
 import { useVideoDataContext } from "../../../context/videoDataContext";
+import { ReactComponent as CloseIcon } from "../../../icons/close-sidebar.svg";
 import "./styles.css";
 
 function ChoosePlaylist({ data }) {
@@ -27,8 +23,6 @@ function ChoosePlaylist({ data }) {
 
 	const addVideoToPlaylist = () => {
 		let videoToAdd = playlists.find((el) => el.playListName === focus);
-		console.log("videoToAdd", videoToAdd);
-		console.log("data", data);
 		dispatch({ type: CLOSE__MODAL });
 		return dispatch({
 			type: ADD__VIDEO__TO__EXISTING__PLAYLIST,
@@ -36,9 +30,14 @@ function ChoosePlaylist({ data }) {
 		});
 	};
 
+	const closeModalHandler = () => {
+		return dispatch({ type: CLOSE__MODAL });
+	};
+
 	return (
 		<>
 			<h2 className="text-center product__name ls-medium-px">Choose a Playlist</h2>
+			<CloseIcon className="close-icon" onClick={closeModalHandler} />
 			{playlists.length === 0 ? (
 				<div className="flex-col-center">
 					<p className="text-center product__name mt-16">

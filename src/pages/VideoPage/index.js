@@ -1,28 +1,31 @@
-import React from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router";
 import YouTube from "react-youtube";
 import { ReactComponent as VideoViewsIcon } from "../../icons/video-view.svg";
 import { ReactComponent as LikesIcon } from "../../icons/thumbs-up.svg";
 import { ReactComponent as DislikesIcon } from "../../icons/thumbs-down.svg";
 import { ReactComponent as AddPlaylistIcon } from "../../icons/add-playlist.svg";
+import { ReactComponent as WatchLaterIcon } from "../../icons/watch-later.svg";
 import { useVideoDataContext } from "../../context/videoDataContext";
-import "./styles.css";
-import { OPEN__MODAL } from "../../constants";
+import { ADD__VIDEO__TO__WATCHLATER, OPEN__MODAL } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
+import "./styles.css";
+import VideoListingCard from "../../components/VideoListingCard";
 
 function VideoPage() {
-	const { id } = useParams();
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, []);
+
+	const { videoId } = useParams();
 
 	const { state, addVideoToLikedVideos, dislikeClickHandler, dispatch } = useVideoDataContext();
-	console.log(state);
 
 	const [width] = useMediaQuery();
 
-	const dataToShow = state.videosData.find((item) => item.videoId === id);
-	console.log("dataToShow", dataToShow);
+	const dataToShow = state.videosData.find((item) => item.videoId === videoId);
 
 	const reactionsClickHandler = (type) => {
-		console.log(type);
 		if (type === "like") {
 			return addVideoToLikedVideos({ ...dataToShow, liked: !dataToShow.liked });
 		}
@@ -32,10 +35,16 @@ function VideoPage() {
 	};
 
 	const openModalHandler = () => {
-		console.log("Inside modal open handler");
 		return dispatch({
 			type: OPEN__MODAL,
 			payload: { modalType: "addPlaylist", data: dataToShow },
+		});
+	};
+
+	const addVideoToWatchLater = () => {
+		return dispatch({
+			type: ADD__VIDEO__TO__WATCHLATER,
+			payload: { ...dataToShow, watchLater: !dataToShow.watchLater },
 		});
 	};
 
@@ -50,16 +59,7 @@ function VideoPage() {
 	return (
 		<div className={`${width >= 550 && "padding-l16 padding-r16"} mb-32`}>
 			{dataToShow && (
-				<div
-					className="video"
-					style={{
-						position: "relative",
-						paddingBottom: "56.25%" /* 16:9 */,
-						paddingTop: 25,
-						height: "100%",
-						width: "100%",
-					}}
-				>
+				<>
 					<YouTube
 						videoId={dataToShow.videoId}
 						id={dataToShow.id}
@@ -103,11 +103,27 @@ function VideoPage() {
 									onClick={() => openModalHandler()}
 								/>
 							</div>
+							<div className="flex-row-center c-pointer ml-16">
+								<WatchLaterIcon
+									fill={
+										dataToShow.watchLater
+											? "var(--complementary-color)"
+											: "var(--font-color)"
+									}
+									className="w-20 mr-8"
+									onClick={() => addVideoToWatchLater()}
+								/>
+							</div>
 						</div>
 					</div>
 					<p className="mt-8 mb-8">{dataToShow.description}</p>
-				</div>
+				</>
 			)}
+			<hr className="mt-16 mb-8" />
+			<h2 className="mt-16">All Videos</h2>
+			{state.videosData.map((video) => (
+				<VideoListingCard key={video.id} video={video} />
+			))}
 		</div>
 	);
 }

@@ -8,7 +8,7 @@ import { REMOVE__PLAYLIST } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
 
 function PlayListCard({ data }) {
-	const { state, dispatch } = useVideoDataContext();
+	const { dispatch } = useVideoDataContext();
 	let navigate = useNavigate();
 
 	const [width] = useMediaQuery();
@@ -24,7 +24,7 @@ function PlayListCard({ data }) {
 
 	return (
 		<div
-			className={`playlist-card mt-16 mb-16 padding-r8 c-pointer ${
+			className={`playlist-card mt-16 mb-16 ${width <= 520 ? "" : "padding-r8"} c-pointer ${
 				width <= 520 ? "flex-col w100" : "flex-row"
 			}`}
 			onClick={showPlaylistVideos}
@@ -34,10 +34,7 @@ function PlayListCard({ data }) {
 				className="delete-icon"
 				onClick={deletePlaylistHandler}
 			/>
-			<img
-				src="https://img.youtube.com/vi/g-beFHld19c/hqdefault.jpg"
-				alt="Playlist thumbnail"
-			/>
+			<img src={data.videos[0].imageUrl} alt="Playlist thumbnail" />
 			<div
 				className={`flex-row-center content ${
 					width <= 520 ? "padding-t8 padding-b8" : "padding-l8"

@@ -11,10 +11,11 @@ import {
 	REMOVE__VIDEO__FROM__PLAYLIST,
 	CLOSE__MOBILE__MENU,
 	videoData,
+	ADD__VIDEO__TO__WATCHLATER,
+	REMOVE__VIDEO__FROM__WATCHLATER,
 } from "../constants";
 
 export const videoDataReducer = (state, action) => {
-	console.log(state, action);
 	switch (action.type) {
 		case LOAD__VIDEOS__DATA:
 			return {
@@ -36,6 +37,25 @@ export const videoDataReducer = (state, action) => {
 									: el
 						  )
 						: state.videosData.map((el) =>
+								el.id === action.payload.id
+									? {
+											...el,
+											likes: el.likes + 1,
+											liked: !el.liked,
+											dislikes:
+												el.dislikes > 0 ? el.dislikes - 1 : el.dislikes,
+											disLiked: false,
+									  }
+									: el
+						  ),
+				watchLater:
+					action.payload.liked === false
+						? state.watchLater.map((el) =>
+								el.id === action.payload.id
+									? { ...el, likes: el.likes - 1, liked: !el.liked }
+									: el
+						  )
+						: state.watchLater.map((el) =>
 								el.id === action.payload.id
 									? {
 											...el,
@@ -104,7 +124,6 @@ export const videoDataReducer = (state, action) => {
 			};
 
 		case ADD__VIDEO__TO__EXISTING__PLAYLIST:
-			console.log("inside existing playlist", action, state);
 			return {
 				...state,
 				playlists: state.playlists.map((el) =>
@@ -145,6 +164,39 @@ export const videoDataReducer = (state, action) => {
 			return {
 				...state,
 				openMobileMenu: false,
+			};
+
+		case ADD__VIDEO__TO__WATCHLATER:
+			return {
+				...state,
+				watchLater:
+					action.payload.watchLater === false
+						? state.watchLater.filter((el) => el.id !== action.payload.id)
+						: [...state.watchLater, action.payload],
+				videosData:
+					action.payload.watchLater === false
+						? state.videosData.map((el) =>
+								el.id === action.payload.id
+									? { ...el, watchLater: !el.watchLater }
+									: el
+						  )
+						: state.videosData.map((el) =>
+								el.id === action.payload.id
+									? {
+											...el,
+											watchLater: true,
+									  }
+									: el
+						  ),
+			};
+
+		case REMOVE__VIDEO__FROM__WATCHLATER:
+			return {
+				...state,
+				videosData: state.videosData.map((el) =>
+					el.id === action.payload.id ? { ...el, watchLater: false } : el
+				),
+				watchLater: state.watchLater.filter((el) => el.id !== action.payload.id),
 			};
 
 		default:

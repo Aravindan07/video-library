@@ -111,6 +111,46 @@ export const videoData = [
 		publishedDate: "Aug 7,2019",
 		channel: "Ben Williams - My Cricket Coach",
 	},
+	{
+		id: "6",
+		videoId: "P1XTumYOpto",
+		name: "Smart Methods To Handle Fast Bowlers",
+		imageUrl: "https://img.youtube.com/vi/P1XTumYOpto/hqdefault.jpg",
+		description:
+			"A beginner cricketer will most likely just want to give the ball a thump but if your youngster is ready for some simple coaching tips, this video covers the batting basics.",
+		thumbnail:
+			"https://i.ytimg.com/an_webp/P1XTumYOpto/mqdefault_6s.webp?du=3000&sqp=CNaPy4QG&rs=AOn4CLB0UNO5CZrprpH8E3VYQj0pmn_KIg",
+		liked: false,
+		disLiked: false,
+		watchLater: false,
+		playLists: [],
+		views: "24k",
+		likes: 0,
+		dislikes: 0,
+		watchLength: "9:08",
+		publishedDate: "Nov 30,2020",
+		channel: "Nothing But Cricket",
+	},
+	{
+		id: "7",
+		videoId: "nFUSQX-hcpQ",
+		name: "Hanging ball practice",
+		imageUrl: "https://img.youtube.com/vi/nFUSQX-hcpQ/hqdefault.jpg",
+		description:
+			"This video is about Hanging ball practice. How to play hanging ball and how to practice cricket at home are few questions that I will answer in this video.For Hanging ball cricket practice, I have used a bat in this video which is known as middling bat, it is a great equipment to practice your batting.",
+		thumbnail:
+			"https://i.ytimg.com/an_webp/nFUSQX-hcpQ/mqdefault_6s.webp?du=3000&sqp=CLzQyoQG&rs=AOn4CLAkJ3CeSYEgcHv13scUuwcmWFz9rQ",
+		liked: false,
+		disLiked: false,
+		watchLater: false,
+		playLists: [],
+		views: "63k",
+		likes: 0,
+		dislikes: 0,
+		watchLength: "9:08",
+		publishedDate: "Feb 19, 2018",
+		channel: "Safal Future in cricket",
+	},
 ];
 
 export const LOAD__VIDEOS__DATA = "LOAD__VIDEOS__DATA";
@@ -125,3 +165,5 @@ export const REMOVE__VIDEO__FROM__PLAYLIST = "REMOVE__VIDEO__FROM__PLAYLIST";
 export const REMOVE__PLAYLIST = "REMOVE__PLAYLIST";
 export const OPEN__MOBILE__MENU = "OPEN__MOBILE__MENU";
 export const CLOSE__MOBILE__MENU = "CLOSE__MOBILE__MENU";
+export const ADD__VIDEO__TO__WATCHLATER = "ADD__VIDEO__TO__WATCHLATER";
+export const REMOVE__VIDEO__FROM__WATCHLATER = "REMOVE__VIDEO__FROM__WATCHLATER";

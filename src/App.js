@@ -10,6 +10,7 @@ import PlayListsPage from "./pages/Playlists";
 import PlaylistVideosPage from "./pages/PlaylistVideosPage";
 import ModalComponent from "./components/Modal";
 import MenuIcon from "./components/MenuIcon";
+import WatchLaterPage from "./pages/WatchLaterPage";
 import { useVideoDataContext } from "./context/videoDataContext";
 import { useMediaQuery } from "./utils/useMediaQueries";
 import "./App.css";
@@ -38,9 +39,12 @@ function App() {
 					<Route path="/" element={<Home />} />
 					<Route path="/my-playlists" element={<PlayListsPage />} />
 					<Route path="/liked-videos" element={<LikedVideosPage />} />
-					<Route path="/watch-later" element={<h2>Watch Later Page</h2>} />
-					<Route path="/my-account" element={<h2>My Account Page</h2>} />
-					<Route path="/video/:id" element={<VideoPage />} />
+					<Route path="/watch-later" element={<WatchLaterPage />} />
+					<Route
+						path="/my-account"
+						element={<h2 className="mt-16">My Account Page</h2>}
+					/>
+					<Route path="/video/:videoId" element={<VideoPage />} />
 					<Route path="/my-playlists/:playlistId" element={<PlaylistVideosPage />} />
 				</Routes>
 			</main>

@@ -2,16 +2,32 @@ import { ReactComponent as TimeIcon } from "../../icons/time-icon.svg";
 import { ReactComponent as VideoIcon } from "../../icons/video.svg";
 import { ReactComponent as VideoViewIcon } from "../../icons/video-view.svg";
 import { ReactComponent as HeartIcon } from "../../icons/heart.svg";
-import { useNavigate } from "react-router";
+import { ReactComponent as DeleteIcon } from "../../icons/trash.svg";
+import { useNavigate, useParams } from "react-router";
+import { useVideoDataContext } from "../../context/videoDataContext";
+import { REMOVE__VIDEO__FROM__PLAYLIST, REMOVE__VIDEO__FROM__WATCHLATER } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
-import "./styles.css";
+import "../VideoListingCard/styles.css";
 
-function VideoListingCard({ video }) {
+function PlayListVideosCard({ video }) {
 	const navigate = useNavigate();
+	const { playlistId } = useParams();
+	const { state, dispatch } = useVideoDataContext();
 	const [width] = useMediaQuery();
 
 	const showVideoPage = () => {
 		return navigate(`/video/${video.videoId}`);
+	};
+
+	const deleteVideoHandler = (event) => {
+		event.stopPropagation();
+		if (state.watchLater.length > 0) {
+			return dispatch({ type: REMOVE__VIDEO__FROM__WATCHLATER, payload: { id: video.id } });
+		}
+		return dispatch({
+			type: REMOVE__VIDEO__FROM__PLAYLIST,
+			payload: { playlistId, id: video.id },
+		});
 	};
 
 	return (
@@ -21,6 +37,12 @@ function VideoListingCard({ video }) {
 			}`}
 			onClick={() => showVideoPage()}
 		>
+			<DeleteIcon
+				fill="var(--complementary-color)"
+				className="delete-icon"
+				onClick={deleteVideoHandler}
+			/>
+
 			<img className={`border-radius-tl-bl-5 img-div`} src={video.imageUrl} alt="Thumbnail" />
 			<div className="padding-l16 padding-r16 padding-t16 padding-b16 content-div">
 				<small className="mb-5">
@@ -43,4 +65,4 @@ function VideoListingCard({ video }) {
 	);
 }
 
-export default VideoListingCard;
+export default PlayListVideosCard;
