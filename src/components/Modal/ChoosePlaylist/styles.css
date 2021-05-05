@@ -1,0 +1,26 @@
+.playlist-div {
+	width: 100%;
+	padding: 0.5rem;
+	background-color: #f3f4f6;
+	text-align: center;
+	border-radius: 5px;
+	box-sizing: border-box;
+}
+
+.playlist-div:hover {
+	background-color: #ecfdf5;
+	border-radius: 5px;
+	border: 2px solid #15b996;
+}
+
+.focused-div {
+	background-color: #ecfdf5;
+	border-radius: 5px;
+	border: 2px solid #15b996;
+}
+
+.close-icon {
+	position: absolute;
+	top: 0.2rem;
+	right: 0.2rem;
+}

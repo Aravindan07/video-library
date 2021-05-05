@@ -1,0 +1,10 @@
+.content {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+}
+
+.icon-container svg {
+	width: 15px;
+	height: 15px;
+}

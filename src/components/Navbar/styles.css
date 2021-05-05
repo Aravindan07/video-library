@@ -1,0 +1,20 @@
+.logo {
+	height: 100%;
+	width: 30px;
+}
+
+.navbar-image {
+	width: 35px;
+}
+
+.menu-icon-size {
+	width: 2.5rem;
+}
+
+@media screen and (max-width: 400px) {
+	.flex-row-justify-center--mobile {
+		display: flex;
+		justify-content: center;
+		/* margin-top: 0.5rem; */
+	}
+}
