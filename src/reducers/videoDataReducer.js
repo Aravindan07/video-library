@@ -5,9 +5,11 @@ import {
 	CLICKED__ON__DISLIKE,
 	CLOSE__MODAL,
 	LOAD__VIDEOS__DATA,
+	OPEN__MOBILE__MENU,
 	OPEN__MODAL,
 	REMOVE__PLAYLIST,
 	REMOVE__VIDEO__FROM__PLAYLIST,
+	CLOSE__MOBILE__MENU,
 	videoData,
 } from "../constants";
 
@@ -131,6 +133,18 @@ export const videoDataReducer = (state, action) => {
 				playlists: state.playlists.filter(
 					(el) => el.playlistId !== action.payload.playlistId
 				),
+			};
+
+		case OPEN__MOBILE__MENU:
+			return {
+				...state,
+				openMobileMenu: !state.openMobileMenu,
+			};
+
+		case CLOSE__MOBILE__MENU:
+			return {
+				...state,
+				openMobileMenu: false,
 			};
 
 		default:

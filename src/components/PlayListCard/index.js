@@ -5,10 +5,13 @@ import { ReactComponent as DeleteIcon } from "../../icons/trash.svg";
 import "./styles.css";
 import "../VideoListingCard/styles.css";
 import { REMOVE__PLAYLIST } from "../../constants";
+import { useMediaQuery } from "../../utils/useMediaQueries";
 
 function PlayListCard({ data }) {
 	const { state, dispatch } = useVideoDataContext();
 	let navigate = useNavigate();
+
+	const [width] = useMediaQuery();
 
 	const showPlaylistVideos = () => {
 		return navigate(`${data.playlistId}`);
@@ -21,7 +24,9 @@ function PlayListCard({ data }) {
 
 	return (
 		<div
-			className="playlist-card mt-16 mb-16 padding-r8 c-pointer flex-row"
+			className={`playlist-card mt-16 mb-16 padding-r8 c-pointer ${
+				width <= 520 ? "flex-col w100" : "flex-row"
+			}`}
 			onClick={showPlaylistVideos}
 		>
 			<DeleteIcon
@@ -33,7 +38,11 @@ function PlayListCard({ data }) {
 				src="https://img.youtube.com/vi/g-beFHld19c/hqdefault.jpg"
 				alt="Playlist thumbnail"
 			/>
-			<div className="flex-row-center content padding-l8">
+			<div
+				className={`flex-row-center content ${
+					width <= 520 ? "padding-t8 padding-b8" : "padding-l8"
+				}`}
+			>
 				<h2 className="product__name ls-medium-px ls-medium-px mb-16">
 					{data.playListName}
 				</h2>

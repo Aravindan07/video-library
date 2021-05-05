@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { CLOSE__MODAL } from "../../constants";
 import { useVideoDataContext } from "../../context/videoDataContext";
+import { useMediaQuery } from "../../utils/useMediaQueries";
 import AddPlaylist from "./AddPlaylist";
 import ChoosePlayList from "./ChoosePlaylist";
 
@@ -15,6 +16,9 @@ function ModalComponent() {
 		dispatch,
 		state: { modal },
 	} = useVideoDataContext();
+
+	const [width] = useMediaQuery();
+
 	useEffect(() => {
 		Modal.setAppElement("#root");
 	});
@@ -28,11 +32,11 @@ function ModalComponent() {
 	};
 
 	const content = {
-		width: "50%",
+		width: width <= 500 ? "80%" : "50%",
 		height: "50%",
 		margin: "auto",
 		borderRadius: "5px",
-		padding: "30px 20px 20px 20px",
+		padding: width <= 500 ? "30px 10px" : "30px 20px 20px 20px",
 		zIndex: "10",
 	};
 

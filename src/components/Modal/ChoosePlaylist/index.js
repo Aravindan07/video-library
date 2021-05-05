@@ -39,32 +39,46 @@ function ChoosePlaylist({ data }) {
 	return (
 		<>
 			<h2 className="text-center product__name ls-medium-px">Choose a Playlist</h2>
-			<div className="flex-col-center mt-16 mb-16 w100">
-				{playlists.map((el) => (
-					<div
-						className={`playlist-div c-pointer ls-medium-px mt-8 mb-8 ${
-							focus === el.playListName ? "focused-div" : ""
-						}`}
-						onClick={(e) => onClickHandler(el.playListName)}
-					>
-						{el.playListName}
-					</div>
-				))}
-				<div className="flex-row-space-between w80">
+			{playlists.length === 0 ? (
+				<div className="flex-col-center">
+					<p className="text-center product__name mt-16">
+						You didn't created any playlists
+					</p>
 					<button
 						className="button button--error font-color--white mt-16"
 						onClick={() => goBackHandler()}
 					>
 						Back
 					</button>
-					<button
-						className="button button-primary font-color--white mt-16"
-						onClick={() => addVideoToPlaylist()}
-					>
-						Add
-					</button>
 				</div>
-			</div>
+			) : (
+				<div className="flex-col-center mt-16 mb-16 w100">
+					{playlists.map((el) => (
+						<div
+							className={`playlist-div c-pointer ls-medium-px mt-8 mb-8 ${
+								focus === el.playListName ? "focused-div" : ""
+							}`}
+							onClick={(e) => onClickHandler(el.playListName)}
+						>
+							{el.playListName}
+						</div>
+					))}
+					<div className="flex-row-space-between w80">
+						<button
+							className="button button--error font-color--white mt-16"
+							onClick={() => goBackHandler()}
+						>
+							Back
+						</button>
+						<button
+							className="button button-primary font-color--white mt-16"
+							onClick={() => addVideoToPlaylist()}
+						>
+							Add
+						</button>
+					</div>
+				</div>
+			)}
 		</>
 	);
 }

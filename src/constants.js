@@ -8,6 +8,7 @@ export const initialState = {
 		modalType: "",
 		data: null,
 	},
+	openMobileMenu: false,
 };
 
 export const videoData = [
@@ -122,3 +123,5 @@ export const ADD__TO__PLAYLIST = "ADD__TO__PLAYLIST";
 export const ADD__VIDEO__TO__EXISTING__PLAYLIST = "ADD__VIDEO__TO__EXISTING__PLAYLIST";
 export const REMOVE__VIDEO__FROM__PLAYLIST = "REMOVE__VIDEO__FROM__PLAYLIST";
 export const REMOVE__PLAYLIST = "REMOVE__PLAYLIST";
+export const OPEN__MOBILE__MENU = "OPEN__MOBILE__MENU";
+export const CLOSE__MOBILE__MENU = "CLOSE__MOBILE__MENU";

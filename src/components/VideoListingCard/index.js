@@ -4,14 +4,16 @@ import { ReactComponent as VideoViewIcon } from "../../icons/video-view.svg";
 import { ReactComponent as HeartIcon } from "../../icons/heart.svg";
 import { ReactComponent as DeleteIcon } from "../../icons/trash.svg";
 import { useNavigate, useParams } from "react-router";
-import "./styles.css";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { REMOVE__VIDEO__FROM__PLAYLIST } from "../../constants";
+import { useMediaQuery } from "../../utils/useMediaQueries";
+import "./styles.css";
 
 function VideoListingCard({ video }) {
 	const navigate = useNavigate();
 	const { playlistId } = useParams();
 	const { dispatch } = useVideoDataContext();
+	const [width] = useMediaQuery();
 
 	const showVideoPage = () => {
 		console.log("Inside show handler");
@@ -29,7 +31,9 @@ function VideoListingCard({ video }) {
 
 	return (
 		<div
-			className="video-thumbnail-card mt-32 mb-32 br-5 c-pointer ls-medium-px"
+			className={`video-thumbnail-card mt-32 mb-32 br-5 c-pointer ls-medium-px ${
+				width <= 550 ? "flex-col" : ""
+			}`}
 			onClick={() => showVideoPage()}
 		>
 			{playlistId && (
@@ -39,17 +43,13 @@ function VideoListingCard({ video }) {
 					onClick={deleteVideoHandler}
 				/>
 			)}
-			<img
-				className="img-w300-h200 border-radius-tl-bl-5"
-				src={video.imageUrl}
-				alt="Thumbnail"
-			/>
-			<div className="padding-l16 padding-r16 padding-t16 padding-b16">
+			<img className={`border-radius-tl-bl-5 img-div`} src={video.imageUrl} alt="Thumbnail" />
+			<div className="padding-l16 padding-r16 padding-t16 padding-b16 content-div">
 				<small className="mb-5">
 					<b>Published on:</b> {video.publishedDate}
 				</small>
 				<h2 className="mb-16">{video.name}</h2>
-				<p className="fw-500">{video.description}</p>
+				<p className="fw-500 text">{video.description}</p>
 				<div className="icon-container mt-16 flex-row-align-center">
 					<VideoIcon fill="#6B7280" />
 					<small className="ml-5 mr-16 gray-text-dark-mode">{video.channel}</small>

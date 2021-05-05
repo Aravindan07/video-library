@@ -8,12 +8,15 @@ import { ReactComponent as AddPlaylistIcon } from "../../icons/add-playlist.svg"
 import { useVideoDataContext } from "../../context/videoDataContext";
 import "./styles.css";
 import { OPEN__MODAL } from "../../constants";
+import { useMediaQuery } from "../../utils/useMediaQueries";
 
 function VideoPage() {
 	const { id } = useParams();
 
 	const { state, addVideoToLikedVideos, dislikeClickHandler, dispatch } = useVideoDataContext();
 	console.log(state);
+
+	const [width] = useMediaQuery();
 
 	const dataToShow = state.videosData.find((item) => item.videoId === id);
 	console.log("dataToShow", dataToShow);
@@ -36,14 +39,32 @@ function VideoPage() {
 		});
 	};
 
+	const opts = {
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%",
+	};
+
 	return (
-		<div className="padding-l16 padding-r16 mb-32">
+		<div className={`${width >= 550 && "padding-l16 padding-r16"} mb-32`}>
 			{dataToShow && (
-				<>
+				<div
+					className="video"
+					style={{
+						position: "relative",
+						paddingBottom: "56.25%" /* 16:9 */,
+						paddingTop: 25,
+						height: "100%",
+						width: "100%",
+					}}
+				>
 					<YouTube
 						videoId={dataToShow.videoId}
 						id={dataToShow.id}
 						className={`mt-8 w100 video-div br-10`}
+						opts={opts}
 					/>
 					<div className="flex-row-space-between">
 						<div className="flex-col">
@@ -66,7 +87,11 @@ function VideoPage() {
 							</div>
 							<div className="flex-row-center c-pointer ml-16">
 								<DislikesIcon
-									fill={dataToShow.disLiked ? "red" : "var(--background-color)"}
+									fill={
+										dataToShow.disLiked
+											? "var(--complementary-color)"
+											: "var(--background-color)"
+									}
 									className="w-20 mr-8"
 									onClick={() => reactionsClickHandler("dislike")}
 								/>
@@ -81,7 +106,7 @@ function VideoPage() {
 						</div>
 					</div>
 					<p className="mt-8 mb-8">{dataToShow.description}</p>
-				</>
+				</div>
 			)}
 		</div>
 	);

@@ -2,15 +2,20 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { ADD__TO__PLAYLIST, CLOSE__MODAL, OPEN__MODAL } from "../../../constants";
 import { useVideoDataContext } from "../../../context/videoDataContext";
+import { useMediaQuery } from "../../../utils/useMediaQueries";
 
 function AddPlaylist({ data }) {
 	const [name, setName] = useState("");
 	const { dispatch } = useVideoDataContext();
+	const [width] = useMediaQuery();
 
 	const onChangeHandler = (event) => {
 		return setName(event.target.value);
 	};
 	const addToPlayListHandler = () => {
+		if (name === "") {
+			return null;
+		}
 		dispatch({
 			type: ADD__TO__PLAYLIST,
 			payload: { playlistId: uuidv4(), playListName: name, videos: [data] },
@@ -27,11 +32,11 @@ function AddPlaylist({ data }) {
 	};
 
 	return (
-		<div>
+		<>
 			<h2 className="text-center product__name ls-medium-px">Add To Playlist</h2>
 			<div className="flex-col-center mt-16 mb-16 w100">
 				<input
-					className="input__control"
+					className={`input__control ${width <= 500 ? "w100" : ""}`}
 					type="text"
 					id="name"
 					value={name}
@@ -55,7 +60,7 @@ function AddPlaylist({ data }) {
 					</button>
 				</div>
 			</div>
-		</div>
+		</>
 	);
 }
 
