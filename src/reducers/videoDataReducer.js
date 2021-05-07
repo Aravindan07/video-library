@@ -18,8 +18,6 @@ import {
 } from "../constants";
 
 export const videoDataReducer = (state, action) => {
-	console.log("state, action", state, action);
-
 	const updateLikeInState = (toUpdate) => {
 		let updatedPart = toUpdate === "videosData" ? state.videosData : state.watchLater;
 		return updatedPart.map((el) =>

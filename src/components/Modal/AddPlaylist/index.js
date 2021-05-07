@@ -55,16 +55,18 @@ function AddPlaylist({ data }) {
 			<h2 className="text-center product__name ls-medium-px">Add To Playlist</h2>
 			<CloseIcon className="close-icon c-pointer" onClick={closeModalHandler} />
 			<div className="flex-col-center mt-16 mb-16 w100">
-				<small className="mb-16">
-					This Video is already present in playlists
-					{getNames.map((el) => (
-						<strong>
-							{" "}
-							{el}
-							{getNames.length > 1 && ","}
-						</strong>
-					))}
-				</small>
+				{getNames.length > 0 && (
+					<small className="mb-16">
+						This Video is already present in playlists
+						{getNames.map((el) => (
+							<strong key={el}>
+								{" "}
+								{el}
+								{getNames.length > 1 && ","}
+							</strong>
+						))}
+					</small>
+				)}
 				<input
 					className={`input__control ${width <= 500 ? "w100" : ""}`}
 					type="text"

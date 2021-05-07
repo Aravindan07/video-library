@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import VideoListingCard from "../../components/VideoListingCard";
 import "./styles.css";
 import { useVideoDataContext } from "../../context/videoDataContext";

@@ -60,6 +60,7 @@ function ChoosePlaylist({ data }) {
 				<div className="flex-col-center mt-16 mb-16 w100">
 					{playlists.map((el) => (
 						<div
+							key={el.playlistId}
 							className={`playlist-div c-pointer ls-medium-px mt-8 mb-8 ${
 								focus === el.playListName ? "focused-div" : ""
 							}`}
