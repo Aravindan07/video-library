@@ -2,8 +2,10 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import PlayListVideosCard from "../../components/PlayListVideosCard";
 import { useVideoDataContext } from "../../context/videoDataContext";
+import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
 export default function PlaylistVideosPage() {
+	useDocumentTitle("PlayList Videos | CricTube");
 	const { playlistId } = useParams();
 	const {
 		state: { playlists },

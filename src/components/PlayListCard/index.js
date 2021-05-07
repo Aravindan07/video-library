@@ -44,8 +44,8 @@ function PlayListCard({ data }) {
 					{data.playListName}
 				</h2>
 				<p className="gray-text">
-					Total Videos:{" "}
-					<span style={{ color: "var(--font-color)" }}>{data.videos.length}</span>
+					Total Videos:
+					<span style={{ color: "var(--font-color)" }}> {data.videos.length}</span>
 				</p>
 			</div>
 		</div>

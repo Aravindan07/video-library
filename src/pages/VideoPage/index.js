@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import YouTube from "react-youtube";
 import { ReactComponent as VideoViewsIcon } from "../../icons/video-view.svg";
 import { ReactComponent as LikesIcon } from "../../icons/thumbs-up.svg";
@@ -9,43 +9,68 @@ import { ReactComponent as WatchLaterIcon } from "../../icons/watch-later.svg";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { ADD__VIDEO__TO__WATCHLATER, OPEN__MODAL } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
-import "./styles.css";
 import VideoListingCard from "../../components/VideoListingCard";
+import { toast } from "react-toastify";
+import "./styles.css";
+import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
 function VideoPage() {
+	const { state, addVideoToLikedVideos, dislikeClickHandler, dispatch } = useVideoDataContext();
+	const { videoId } = useParams();
+	const dataToShow =
+		state.videosData && state.videosData.find((item) => item.videoId === videoId);
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, []);
+	}, [dataToShow]);
 
-	const { videoId } = useParams();
+	useDocumentTitle(`${dataToShow && dataToShow.name} | CricTube`);
 
-	const { state, addVideoToLikedVideos, dislikeClickHandler, dispatch } = useVideoDataContext();
+	let navigate = useNavigate();
 
 	const [width] = useMediaQuery();
 
-	const dataToShow = state.videosData.find((item) => item.videoId === videoId);
-
 	const reactionsClickHandler = (type) => {
-		if (type === "like") {
-			return addVideoToLikedVideos({ ...dataToShow, liked: !dataToShow.liked });
+		if (state.isAuthenticated) {
+			if (type === "like") {
+				return addVideoToLikedVideos({ ...dataToShow, liked: !dataToShow.liked });
+			}
+			if (type === "dislike") {
+				return dislikeClickHandler({ id: dataToShow.id, disLiked: !dataToShow.disLiked });
+			}
 		}
-		if (type === "dislike") {
-			return dislikeClickHandler({ id: dataToShow.id, disLiked: !dataToShow.disLiked });
-		}
+		return navigate("/my-account");
 	};
 
 	const openModalHandler = () => {
-		return dispatch({
-			type: OPEN__MODAL,
-			payload: { modalType: "addPlaylist", data: dataToShow },
-		});
+		if (state.isAuthenticated) {
+			return dispatch({
+				type: OPEN__MODAL,
+				payload: { modalType: "addPlaylist", data: dataToShow },
+			});
+		}
+		return navigate("/my-account");
 	};
 
 	const addVideoToWatchLater = () => {
-		return dispatch({
-			type: ADD__VIDEO__TO__WATCHLATER,
-			payload: { ...dataToShow, watchLater: !dataToShow.watchLater },
-		});
+		if (state.isAuthenticated) {
+			dispatch({
+				type: ADD__VIDEO__TO__WATCHLATER,
+				payload: { ...dataToShow, watchLater: !dataToShow.watchLater },
+			});
+			if (!dataToShow.watchLater) {
+				return toast.success("Item added to Watch Later", {
+					style: { backgroundColor: "var(--complementary-color)" },
+					autoClose: 1500,
+					hideProgressBar: true,
+				});
+			}
+			return toast.info("Item removed from Watch Later", {
+				style: { backgroundColor: "#dcdcdc", color: "var(--font-color)" },
+				autoClose: 1500,
+				hideProgressBar: true,
+			});
+		}
+		return navigate("/my-account");
 	};
 
 	const opts = {
@@ -79,7 +104,7 @@ function VideoPage() {
 							</div>
 							<div className="flex-row-center c-pointer ml-16">
 								<LikesIcon
-									fill={dataToShow.liked ? "blue" : "var(--background-color)"}
+									fill={dataToShow.liked ? "#2563EB" : "var(--background-color)"}
 									className="w-20 mr-8"
 									onClick={() => reactionsClickHandler("like")}
 								/>
@@ -99,6 +124,7 @@ function VideoPage() {
 							</div>
 							<div className="flex-row-center c-pointer ml-16">
 								<AddPlaylistIcon
+									fill={state.playlists.length > 0 ? "#2563EB" : ""}
 									className="w-20 mr-8"
 									onClick={() => openModalHandler()}
 								/>
@@ -121,9 +147,8 @@ function VideoPage() {
 			)}
 			<hr className="mt-16 mb-8" />
 			<h2 className="mt-16">All Videos</h2>
-			{state.videosData.map((video) => (
-				<VideoListingCard key={video.id} video={video} />
-			))}
+			{state.videosData &&
+				state.videosData.map((video) => <VideoListingCard key={video.id} video={video} />)}
 		</div>
 	);
 }

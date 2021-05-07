@@ -2,8 +2,10 @@ import React from "react";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import PlayListCard from "../../components/PlayListCard";
 import { useMediaQuery } from "../../utils/useMediaQueries";
+import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
 function Playlists() {
+	useDocumentTitle("Playlists | CricTube");
 	const {
 		state: { playlists },
 	} = useVideoDataContext();

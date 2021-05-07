@@ -9,7 +9,16 @@ export const initialState = {
 		data: null,
 	},
 	openMobileMenu: false,
+	isAuthenticated: false,
 };
+
+export const navLinks = [
+	{ name: "Home", path: "/" },
+	{ name: "Playlists", path: "/my-playlists" },
+	{ name: "Liked Videos", path: "/liked-videos" },
+	{ name: "Watch Later", path: "/watch-later" },
+	{ name: "My Account", path: "my-account" },
+];
 
 export const videoData = [
 	{
@@ -167,3 +176,5 @@ export const OPEN__MOBILE__MENU = "OPEN__MOBILE__MENU";
 export const CLOSE__MOBILE__MENU = "CLOSE__MOBILE__MENU";
 export const ADD__VIDEO__TO__WATCHLATER = "ADD__VIDEO__TO__WATCHLATER";
 export const REMOVE__VIDEO__FROM__WATCHLATER = "REMOVE__VIDEO__FROM__WATCHLATER";
+export const SET__LOGIN = "SET__LOGIN";
+export const SET__LOGOUT = "SET__LOGOUT";

@@ -13,9 +13,57 @@ import {
 	videoData,
 	ADD__VIDEO__TO__WATCHLATER,
 	REMOVE__VIDEO__FROM__WATCHLATER,
+	SET__LOGIN,
+	SET__LOGOUT,
 } from "../constants";
 
 export const videoDataReducer = (state, action) => {
+	console.log("state, action", state, action);
+
+	const updateLikeInState = (toUpdate) => {
+		let updatedPart = toUpdate === "videosData" ? state.videosData : state.watchLater;
+		return updatedPart.map((el) =>
+			el.id === action.payload.id ? { ...el, likes: el.likes - 1, liked: !el.liked } : el
+		);
+	};
+
+	const updateDislike = (toUpdate) => {
+		let updatedPart = toUpdate === "videosData" ? state.videosData : state.watchLater;
+		return updatedPart.map((el) =>
+			el.id === action.payload.id
+				? {
+						...el,
+						likes: el.likes + 1,
+						liked: !el.liked,
+						dislikes: el.dislikes > 0 ? el.dislikes - 1 : el.dislikes,
+						disLiked: false,
+				  }
+				: el
+		);
+	};
+
+	const addOrRemoveFromWatchLater = (watchListed) => {
+		return state.videosData.map((el) =>
+			el.id === action.payload.id
+				? { ...el, watchLater: watchListed ? true : !el.watchLater }
+				: el
+		);
+	};
+
+	const dislikeClickHandler = (disliked) => {
+		return state.videosData.map((el) =>
+			el.id === action.payload.id
+				? {
+						...el,
+						liked: disliked ? false : el.liked,
+						likes: disliked ? (el.likes > 0 ? el.likes - 1 : el.likes) : el.likes,
+						dislikes: disliked ? el.dislikes + 1 : el.dislikes - 1,
+						disLiked: !el.disLiked,
+				  }
+				: el
+		);
+	};
+
 	switch (action.type) {
 		case LOAD__VIDEOS__DATA:
 			return {
@@ -31,42 +79,12 @@ export const videoDataReducer = (state, action) => {
 						: [...state.likedVideos, action.payload],
 				videosData:
 					action.payload.liked === false
-						? state.videosData.map((el) =>
-								el.id === action.payload.id
-									? { ...el, likes: el.likes - 1, liked: !el.liked }
-									: el
-						  )
-						: state.videosData.map((el) =>
-								el.id === action.payload.id
-									? {
-											...el,
-											likes: el.likes + 1,
-											liked: !el.liked,
-											dislikes:
-												el.dislikes > 0 ? el.dislikes - 1 : el.dislikes,
-											disLiked: false,
-									  }
-									: el
-						  ),
+						? updateLikeInState("videosData")
+						: updateDislike("videosData"),
 				watchLater:
 					action.payload.liked === false
-						? state.watchLater.map((el) =>
-								el.id === action.payload.id
-									? { ...el, likes: el.likes - 1, liked: !el.liked }
-									: el
-						  )
-						: state.watchLater.map((el) =>
-								el.id === action.payload.id
-									? {
-											...el,
-											likes: el.likes + 1,
-											liked: !el.liked,
-											dislikes:
-												el.dislikes > 0 ? el.dislikes - 1 : el.dislikes,
-											disLiked: false,
-									  }
-									: el
-						  ),
+						? updateLikeInState("watchLater")
+						: updateDislike("watchLater"),
 			};
 
 		case CLICKED__ON__DISLIKE:
@@ -75,26 +93,8 @@ export const videoDataReducer = (state, action) => {
 				likedVideos: state.likedVideos.filter((el) => el.id !== action.payload.id),
 				videosData:
 					action.payload.disLiked === false
-						? state.videosData.map((el) =>
-								el.id === action.payload.id
-									? {
-											...el,
-											dislikes: el.dislikes - 1,
-											disLiked: !el.disLiked,
-									  }
-									: el
-						  )
-						: state.videosData.map((el) =>
-								el.id === action.payload.id
-									? {
-											...el,
-											liked: false,
-											likes: el.likes > 0 ? el.likes - 1 : el.likes,
-											dislikes: el.dislikes + 1,
-											disLiked: !el.disLiked,
-									  }
-									: el
-						  ),
+						? dislikeClickHandler(action.payload.disLiked)
+						: dislikeClickHandler(action.payload.disLiked),
 			};
 
 		case OPEN__MODAL:
@@ -175,19 +175,8 @@ export const videoDataReducer = (state, action) => {
 						: [...state.watchLater, action.payload],
 				videosData:
 					action.payload.watchLater === false
-						? state.videosData.map((el) =>
-								el.id === action.payload.id
-									? { ...el, watchLater: !el.watchLater }
-									: el
-						  )
-						: state.videosData.map((el) =>
-								el.id === action.payload.id
-									? {
-											...el,
-											watchLater: true,
-									  }
-									: el
-						  ),
+						? addOrRemoveFromWatchLater(action.payload.watchLater)
+						: addOrRemoveFromWatchLater(action.payload.watchLater),
 			};
 
 		case REMOVE__VIDEO__FROM__WATCHLATER:
@@ -197,6 +186,18 @@ export const videoDataReducer = (state, action) => {
 					el.id === action.payload.id ? { ...el, watchLater: false } : el
 				),
 				watchLater: state.watchLater.filter((el) => el.id !== action.payload.id),
+			};
+
+		case SET__LOGIN:
+			return {
+				...state,
+				isAuthenticated: true,
+			};
+
+		case SET__LOGOUT:
+			return {
+				...state,
+				isAuthenticated: false,
 			};
 
 		default:

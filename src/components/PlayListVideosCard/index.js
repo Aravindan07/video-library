@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { REMOVE__VIDEO__FROM__PLAYLIST, REMOVE__VIDEO__FROM__WATCHLATER } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
+import { toast } from "react-toastify";
 import "../VideoListingCard/styles.css";
 
 function PlayListVideosCard({ video }) {
@@ -22,7 +23,12 @@ function PlayListVideosCard({ video }) {
 	const deleteVideoHandler = (event) => {
 		event.stopPropagation();
 		if (state.watchLater.length > 0) {
-			return dispatch({ type: REMOVE__VIDEO__FROM__WATCHLATER, payload: { id: video.id } });
+			dispatch({ type: REMOVE__VIDEO__FROM__WATCHLATER, payload: { id: video.id } });
+			return toast.success("Item removed from Watch Later", {
+				style: { backgroundColor: "var(--complementary-color)" },
+				autoClose: 1500,
+				hideProgressBar: true,
+			});
 		}
 		return dispatch({
 			type: REMOVE__VIDEO__FROM__PLAYLIST,

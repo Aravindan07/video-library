@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import { CLOSE__MOBILE__MENU } from "../../constants";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { ReactComponent as CloseSidebarIcon } from "../../icons/close-sidebar.svg";
+import { navLinks } from "../../constants";
 
 function MenuIcon() {
 	const {
@@ -27,69 +28,21 @@ function MenuIcon() {
 					</div>
 
 					<ul className="w100 font-18">
-						<li
-							className="list__item ls-1 mb-16 c-pointer sidepane-list-item selected"
-							onClick={closeSidebarHandler}
-						>
-							<NavLink
-								activeClassName="selected"
-								className="link__item sidepane-list-item-active padding-t8 padding-b8 padding-l24 padding-r24"
-								to="/"
+						{navLinks.map((link) => (
+							<li
+								key={link.name}
+								className="list__item ls-1 mb-16 c-pointer sidepane-list-item selected"
+								onClick={closeSidebarHandler}
 							>
-								Home
-							</NavLink>
-						</li>
-
-						<li
-							className="list__item ls-1 c-pointer sidepane-list-item mb-16 selected"
-							onClick={closeSidebarHandler}
-						>
-							<NavLink
-								activeClassName="selected"
-								className="link__item sidepane-list-item-active padding-t8 padding-b8 padding-l24 padding-r24"
-								to="/my-playlists"
-							>
-								Playlists
-							</NavLink>
-						</li>
-
-						<li
-							className="list__item ls-1 c-pointer sidepane-list-item mb-16 selected"
-							onClick={closeSidebarHandler}
-						>
-							<NavLink
-								activeClassName="selected"
-								className="link__item sidepane-list-item-active padding-t8 padding-b8 padding-l24 padding-r24"
-								to="/liked-videos"
-							>
-								Liked Videos
-							</NavLink>
-						</li>
-
-						<li
-							className="list__item ls-1 c-pointer sidepane-list-item mb-16 selected"
-							onClick={closeSidebarHandler}
-						>
-							<NavLink
-								activeClassName="selected"
-								className="link__item sidepane-list-item-active padding-t8 padding-b8 padding-l24 padding-r24"
-								to="/watch-later"
-							>
-								Watch Later
-							</NavLink>
-						</li>
-						<li
-							className="list__item ls-1 c-pointer sidepane-list-item mb-16 selected"
-							onClick={closeSidebarHandler}
-						>
-							<NavLink
-								activeClassName="selected"
-								className="link__item sidepane-list-item-active padding-t8 padding-b8 padding-l24 padding-r24"
-								to="/my-account"
-							>
-								My Account
-							</NavLink>
-						</li>
+								<NavLink
+									activeClassName="selected"
+									className="link__item sidepane-list-item-active padding-t8 padding-b8 padding-l24 padding-r24"
+									to={link.path}
+								>
+									{link.name}
+								</NavLink>
+							</li>
+						))}
 					</ul>
 				</div>
 			)}

@@ -1,9 +1,11 @@
 import React from "react";
 import VideoListingCard from "../../components/VideoListingCard";
 import { useVideoDataContext } from "../../context/videoDataContext";
+import { useDocumentTitle } from "../../utils/useDocumentTitle";
 import { useMediaQuery } from "../../utils/useMediaQueries";
 
 export default function LikedVideos() {
+	useDocumentTitle("Liked Videos | CricTube");
 	const { state } = useVideoDataContext();
 	const [width] = useMediaQuery();
 	return (

@@ -6,6 +6,8 @@ import {
 	initialState,
 	CLICKED__ON__DISLIKE,
 } from "../constants";
+import { toast } from "react-toastify";
+
 const VideoDataContext = createContext();
 
 export default function VideoDataProvider({ children }) {
@@ -17,14 +19,22 @@ export default function VideoDataProvider({ children }) {
 
 	const addVideoToLikedVideos = (item) => {
 		dispatch({ type: ADD__TO__LIKED__VIDEOS, payload: item });
+		if (item.liked) {
+			return toast.success("Item added to liked videos", {
+				style: { backgroundColor: "var(--complementary-color)" },
+				autoClose: 1500,
+				hideProgressBar: true,
+			});
+		}
+		return toast.info("Item removed from liked videos", {
+			style: { backgroundColor: "#dcdcdc", color: "var(--font-color)" },
+			autoClose: 1500,
+			hideProgressBar: true,
+		});
 	};
 
 	const dislikeClickHandler = (item) => {
 		dispatch({ type: CLICKED__ON__DISLIKE, payload: item });
-	};
-
-	const addToPlaylist = (item) => {
-		dispatch({});
 	};
 
 	return (
@@ -35,7 +45,6 @@ export default function VideoDataProvider({ children }) {
 				loadVideosData,
 				addVideoToLikedVideos,
 				dislikeClickHandler,
-				addToPlaylist,
 			}}
 		>
 			{children}

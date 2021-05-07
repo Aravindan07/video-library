@@ -8,7 +8,7 @@ import { useMediaQuery } from "../../utils/useMediaQueries";
 import "./styles.css";
 
 function Navbar() {
-	const { dispatch } = useVideoDataContext();
+	const { state, dispatch } = useVideoDataContext();
 
 	const [width] = useMediaQuery();
 
@@ -35,20 +35,30 @@ function Navbar() {
 					</div>
 				</Link>
 				<div className={`flex-row-space-between w40 ${width <= 410 ? "mt-8" : ""}`}>
-					<Link to="/my-account">
-						<button className="button navbar--button font-color--white">Sign In</button>
-					</Link>
-					<Link to="/my-account">
-						{/* <img
-							className="avatar--medium rounded-image navbar-image"
-							src="https://polish-ui.netlify.app/icons/fallback.svg"
-							alt="Avatar"
-							height="100%"
-						/> */}
-						<button className="button navbar--button ml-16 font-color--white">
-							Register
-						</button>
-					</Link>
+					{state.isAuthenticated ? (
+						<Link to="/my-account">
+							<img
+								className="avatar--medium rounded-image navbar-image"
+								src="https://polish-ui.netlify.app/icons/fallback.svg"
+								alt="Avatar"
+								height="100%"
+							/>
+						</Link>
+					) : (
+						<>
+							<Link to="/my-account">
+								<button className="button navbar--button font-color--white">
+									Sign In
+								</button>
+							</Link>
+
+							<Link to="/my-account">
+								<button className="button navbar--button ml-16 font-color--white">
+									Register
+								</button>
+							</Link>
+						</>
+					)}
 				</div>
 			</div>
 		</nav>

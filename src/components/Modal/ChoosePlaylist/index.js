@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ADD__VIDEO__TO__EXISTING__PLAYLIST, CLOSE__MODAL, OPEN__MODAL } from "../../../constants";
 import { useVideoDataContext } from "../../../context/videoDataContext";
 import { ReactComponent as CloseIcon } from "../../../icons/close-sidebar.svg";
+import { toast } from "react-toastify";
 import "./styles.css";
 
 function ChoosePlaylist({ data }) {
@@ -12,7 +13,7 @@ function ChoosePlaylist({ data }) {
 
 	const [focus, setFocus] = useState("");
 
-	const onClickHandler = (name) => {
+	const setFocusHandler = (name) => {
 		setFocus(name);
 	};
 
@@ -24,9 +25,14 @@ function ChoosePlaylist({ data }) {
 	const addVideoToPlaylist = () => {
 		let videoToAdd = playlists.find((el) => el.playListName === focus);
 		dispatch({ type: CLOSE__MODAL });
-		return dispatch({
+		dispatch({
 			type: ADD__VIDEO__TO__EXISTING__PLAYLIST,
 			payload: { playlistId: videoToAdd.playlistId, data: data },
+		});
+		return toast.success(`Item added to playlist ${focus}`, {
+			style: { backgroundColor: "var(--complementary-color)" },
+			autoClose: 1500,
+			hideProgressBar: true,
 		});
 	};
 
@@ -57,7 +63,7 @@ function ChoosePlaylist({ data }) {
 							className={`playlist-div c-pointer ls-medium-px mt-8 mb-8 ${
 								focus === el.playListName ? "focused-div" : ""
 							}`}
-							onClick={(e) => onClickHandler(el.playListName)}
+							onClick={(e) => setFocusHandler(el.playListName)}
 						>
 							{el.playListName}
 						</div>
