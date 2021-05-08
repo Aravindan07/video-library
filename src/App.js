@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Navbar, Sidebar, Modal, MenuIcon } from "./components";
+import { Navbar, Sidebar, Modal } from "./components";
 import { useVideoDataContext } from "./context/videoDataContext";
 import { useMediaQuery } from "./utils/useMediaQueries";
 import { toast, ToastContainer } from "react-toastify";
@@ -21,7 +21,6 @@ function App() {
 	return (
 		<div className="app__container">
 			<Navbar />
-			<MenuIcon />
 			<Sidebar />
 			<Modal />
 			<ToastContainer />
