@@ -1,8 +1,5 @@
 import { useEffect } from "react";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import ModalComponent from "./components/Modal";
-import MenuIcon from "./components/MenuIcon";
+import { Navbar, Sidebar, Modal, MenuIcon } from "./components";
 import { useVideoDataContext } from "./context/videoDataContext";
 import { useMediaQuery } from "./utils/useMediaQueries";
 import { toast, ToastContainer } from "react-toastify";
@@ -26,7 +23,7 @@ function App() {
 			<Navbar />
 			<MenuIcon />
 			<Sidebar />
-			<ModalComponent />
+			<Modal />
 			<ToastContainer />
 			<main
 				className={`${width <= 410 ? "padding-r8 padding-l8" : "padding-r24 padding-l24"} ${

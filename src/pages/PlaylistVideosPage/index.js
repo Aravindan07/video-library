@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import PlayListVideosCard from "../../components/PlayListVideosCard";
+import { PlayListVideosCard } from "../../components";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { useVideoDataContext } from "../../context/videoDataContext";
-import PlayListCard from "../../components/PlayListCard";
+import { PlayListCard } from "../../components";
 import { useMediaQuery } from "../../utils/useMediaQueries";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
 

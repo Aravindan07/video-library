@@ -9,7 +9,7 @@ import { ReactComponent as WatchLaterIcon } from "../../icons/watch-later.svg";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { ADD__VIDEO__TO__WATCHLATER, OPEN__MODAL } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
-import VideoListingCard from "../../components/VideoListingCard";
+import { VideoListingCard } from "../../components";
 import { toast } from "react-toastify";
 import "./styles.css";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";

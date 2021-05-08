@@ -34,7 +34,14 @@ function PlayListCard({ data }) {
 				className="delete-icon"
 				onClick={deletePlaylistHandler}
 			/>
-			<img src={data.videos[0].imageUrl} alt="Playlist thumbnail" />
+			<img
+				src={
+					data.videos[0] && data.videos[0].imageUrl && data.videos[0].imageUrl
+						? data.videos[0].imageUrl
+						: "https://dummyimage.com/600x400/544e54/fff"
+				}
+				alt="Playlist thumbnail"
+			/>
 			<div
 				className={`flex-row-center content ${
 					width <= 520 ? "padding-t8 padding-b8" : "padding-l8"

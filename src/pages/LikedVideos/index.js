@@ -1,5 +1,5 @@
 import React from "react";
-import VideoListingCard from "../../components/VideoListingCard";
+import { VideoListingCard } from "../../components";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
 import { useMediaQuery } from "../../utils/useMediaQueries";

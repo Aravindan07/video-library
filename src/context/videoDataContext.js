@@ -1,24 +1,19 @@
 import { createContext, useContext, useReducer } from "react";
 import { videoDataReducer } from "../reducers/videoDataReducer";
-import {
-	ADD__TO__LIKED__VIDEOS,
-	LOAD__VIDEOS__DATA,
-	initialState,
-	CLICKED__ON__DISLIKE,
-} from "../constants";
+import * as Actions from "../constants";
 import { toast } from "react-toastify";
 
 const VideoDataContext = createContext();
 
 export default function VideoDataProvider({ children }) {
-	const [state, dispatch] = useReducer(videoDataReducer, initialState);
+	const [state, dispatch] = useReducer(videoDataReducer, Actions.initialState);
 
 	const loadVideosData = () => {
-		dispatch({ type: LOAD__VIDEOS__DATA });
+		dispatch({ type: Actions.LOAD__VIDEOS__DATA });
 	};
 
 	const addVideoToLikedVideos = (item) => {
-		dispatch({ type: ADD__TO__LIKED__VIDEOS, payload: item });
+		dispatch({ type: Actions.ADD__TO__LIKED__VIDEOS, payload: item });
 		if (item.liked) {
 			return toast.success("Item added to liked videos", {
 				style: { backgroundColor: "var(--complementary-color)" },
@@ -34,7 +29,7 @@ export default function VideoDataProvider({ children }) {
 	};
 
 	const dislikeClickHandler = (item) => {
-		dispatch({ type: CLICKED__ON__DISLIKE, payload: item });
+		dispatch({ type: Actions.CLICKED__ON__DISLIKE, payload: item });
 	};
 
 	return (

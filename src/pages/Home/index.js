@@ -1,4 +1,4 @@
-import VideoListingCard from "../../components/VideoListingCard";
+import { VideoListingCard } from "../../components";
 import "./styles.css";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";

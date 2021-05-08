@@ -1,5 +1,5 @@
 import React from "react";
-import PlayListVideosCard from "../../components/PlayListVideosCard";
+import { PlayListVideosCard } from "../../components";
 import { useVideoDataContext } from "../../context/videoDataContext";
 
 function WatchLaterPage() {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { ADD__TO__PLAYLIST, CLOSE__MODAL, OPEN__MODAL } from "../../../constants";
+// import { ADD__TO__PLAYLIST, CLOSE__MODAL, OPEN__MODAL } from "../../../constants";
+import * as Actions from "../../../constants";
 import { useVideoDataContext } from "../../../context/videoDataContext";
 import { useMediaQuery } from "../../../utils/useMediaQueries";
 import { ReactComponent as CloseIcon } from "../../../icons/close-sidebar.svg";
@@ -27,7 +28,7 @@ function AddPlaylist({ data }) {
 			return null;
 		}
 		dispatch({
-			type: ADD__TO__PLAYLIST,
+			type: Actions.ADD__TO__PLAYLIST,
 			payload: { id: data.id, playlistId: uuidv4(), playListName: name, videos: [data] },
 		});
 		toast.success(`Item added to playlist ${name}`, {
@@ -35,19 +36,19 @@ function AddPlaylist({ data }) {
 			autoClose: 1500,
 			hideProgressBar: true,
 		});
-		return dispatch({ type: CLOSE__MODAL });
+		return dispatch({ type: Actions.CLOSE__MODAL });
 	};
 
 	const chooseFromPlaylist = () => {
-		dispatch({ type: CLOSE__MODAL });
+		dispatch({ type: Actions.CLOSE__MODAL });
 		return dispatch({
-			type: OPEN__MODAL,
+			type: Actions.OPEN__MODAL,
 			payload: { modalType: "choosePlaylist", data: data },
 		});
 	};
 
 	const closeModalHandler = () => {
-		return dispatch({ type: CLOSE__MODAL });
+		return dispatch({ type: Actions.CLOSE__MODAL });
 	};
 
 	return (

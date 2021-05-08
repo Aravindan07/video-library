@@ -1,21 +1,4 @@
-import {
-	ADD__TO__LIKED__VIDEOS,
-	ADD__TO__PLAYLIST,
-	ADD__VIDEO__TO__EXISTING__PLAYLIST,
-	CLICKED__ON__DISLIKE,
-	CLOSE__MODAL,
-	LOAD__VIDEOS__DATA,
-	OPEN__MOBILE__MENU,
-	OPEN__MODAL,
-	REMOVE__PLAYLIST,
-	REMOVE__VIDEO__FROM__PLAYLIST,
-	CLOSE__MOBILE__MENU,
-	videoData,
-	ADD__VIDEO__TO__WATCHLATER,
-	REMOVE__VIDEO__FROM__WATCHLATER,
-	SET__LOGIN,
-	SET__LOGOUT,
-} from "../constants";
+import * as Actions from "../constants";
 
 export const videoDataReducer = (state, action) => {
 	const updateLikeInState = (toUpdate) => {
@@ -63,12 +46,12 @@ export const videoDataReducer = (state, action) => {
 	};
 
 	switch (action.type) {
-		case LOAD__VIDEOS__DATA:
+		case Actions.LOAD__VIDEOS__DATA:
 			return {
 				...state,
-				videosData: [...videoData],
+				videosData: [...Actions.videoData],
 			};
-		case ADD__TO__LIKED__VIDEOS:
+		case Actions.ADD__TO__LIKED__VIDEOS:
 			return {
 				...state,
 				likedVideos:
@@ -85,7 +68,7 @@ export const videoDataReducer = (state, action) => {
 						: updateDislike("watchLater"),
 			};
 
-		case CLICKED__ON__DISLIKE:
+		case Actions.CLICKED__ON__DISLIKE:
 			return {
 				...state,
 				likedVideos: state.likedVideos.filter((el) => el.id !== action.payload.id),
@@ -95,7 +78,7 @@ export const videoDataReducer = (state, action) => {
 						: dislikeClickHandler(action.payload.disLiked),
 			};
 
-		case OPEN__MODAL:
+		case Actions.OPEN__MODAL:
 			return {
 				...state,
 				modal: {
@@ -106,7 +89,7 @@ export const videoDataReducer = (state, action) => {
 				},
 			};
 
-		case CLOSE__MODAL:
+		case Actions.CLOSE__MODAL:
 			return {
 				...state,
 				modal: {
@@ -115,13 +98,13 @@ export const videoDataReducer = (state, action) => {
 				},
 			};
 
-		case ADD__TO__PLAYLIST:
+		case Actions.ADD__TO__PLAYLIST:
 			return {
 				...state,
 				playlists: [...state.playlists, action.payload],
 			};
 
-		case ADD__VIDEO__TO__EXISTING__PLAYLIST:
+		case Actions.ADD__VIDEO__TO__EXISTING__PLAYLIST:
 			return {
 				...state,
 				playlists: state.playlists.map((el) =>
@@ -131,7 +114,7 @@ export const videoDataReducer = (state, action) => {
 				),
 			};
 
-		case REMOVE__VIDEO__FROM__PLAYLIST:
+		case Actions.REMOVE__VIDEO__FROM__PLAYLIST:
 			return {
 				...state,
 				playlists: state.playlists.map((el) =>
@@ -144,7 +127,7 @@ export const videoDataReducer = (state, action) => {
 				),
 			};
 
-		case REMOVE__PLAYLIST:
+		case Actions.REMOVE__PLAYLIST:
 			return {
 				...state,
 				playlists: state.playlists.filter(
@@ -152,19 +135,19 @@ export const videoDataReducer = (state, action) => {
 				),
 			};
 
-		case OPEN__MOBILE__MENU:
+		case Actions.OPEN__MOBILE__MENU:
 			return {
 				...state,
 				openMobileMenu: !state.openMobileMenu,
 			};
 
-		case CLOSE__MOBILE__MENU:
+		case Actions.CLOSE__MOBILE__MENU:
 			return {
 				...state,
 				openMobileMenu: false,
 			};
 
-		case ADD__VIDEO__TO__WATCHLATER:
+		case Actions.ADD__VIDEO__TO__WATCHLATER:
 			return {
 				...state,
 				watchLater:
@@ -177,7 +160,7 @@ export const videoDataReducer = (state, action) => {
 						: addOrRemoveFromWatchLater(action.payload.watchLater),
 			};
 
-		case REMOVE__VIDEO__FROM__WATCHLATER:
+		case Actions.REMOVE__VIDEO__FROM__WATCHLATER:
 			return {
 				...state,
 				videosData: state.videosData.map((el) =>
@@ -186,13 +169,13 @@ export const videoDataReducer = (state, action) => {
 				watchLater: state.watchLater.filter((el) => el.id !== action.payload.id),
 			};
 
-		case SET__LOGIN:
+		case Actions.SET__LOGIN:
 			return {
 				...state,
 				isAuthenticated: true,
 			};
 
-		case SET__LOGOUT:
+		case Actions.SET__LOGOUT:
 			return {
 				...state,
 				isAuthenticated: false,
