@@ -15,10 +15,12 @@ import "./styles.css";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
 function VideoPage() {
-	const { state, addVideoToLikedVideos, dislikeClickHandler, dispatch } = useVideoDataContext();
+	const { state, dislikeClickHandler, dispatch, likeClickHandler } = useVideoDataContext();
 	const { videoId } = useParams();
 	const dataToShow =
 		state.videosData && state.videosData.find((item) => item.videoId === videoId);
+	console.log("dataToShow", dataToShow);
+	console.log("state", state);
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [dataToShow]);
@@ -29,13 +31,24 @@ function VideoPage() {
 
 	const [width] = useMediaQuery();
 
+	const checkLiked = (id) => {
+		return state.user && state.likedVideos && state.likedVideos.find((el) => el._id === id);
+	};
+
+	const checkDisliked = (id) => {
+		return (
+			state.user && state.dislikedVideos && state.dislikedVideos.find((el) => el._id === id)
+		);
+	};
+
 	const reactionsClickHandler = (type) => {
 		if (state.isAuthenticated) {
 			if (type === "like") {
-				return addVideoToLikedVideos({ ...dataToShow, liked: !dataToShow.liked });
+				// return addVideoToLikedVideos({ ...dataToShow, liked: !dataToShow.liked });
+				return likeClickHandler(state.user._id, dataToShow._id);
 			}
 			if (type === "dislike") {
-				return dislikeClickHandler({ id: dataToShow.id, disLiked: !dataToShow.disLiked });
+				return dislikeClickHandler(state.user._id, dataToShow._id);
 			}
 		}
 		return navigate("/my-account");
@@ -104,7 +117,11 @@ function VideoPage() {
 							</div>
 							<div className="flex-row-center c-pointer ml-16">
 								<LikesIcon
-									fill={dataToShow.liked ? "#2563EB" : "var(--background-color)"}
+									fill={
+										checkLiked(dataToShow._id)
+											? "#2563EB"
+											: "var(--background-color)"
+									}
 									className="w-20 mr-8"
 									onClick={() => reactionsClickHandler("like")}
 								/>
@@ -113,7 +130,7 @@ function VideoPage() {
 							<div className="flex-row-center c-pointer ml-16">
 								<DislikesIcon
 									fill={
-										dataToShow.disLiked
+										checkDisliked(dataToShow._id)
 											? "var(--complementary-color)"
 											: "var(--background-color)"
 									}
@@ -148,7 +165,7 @@ function VideoPage() {
 			<hr className="mt-16 mb-8" />
 			<h2 className="mt-16">All Videos</h2>
 			{state.videosData &&
-				state.videosData.map((video) => <VideoListingCard key={video.id} video={video} />)}
+				state.videosData.map((video) => <VideoListingCard key={video._id} video={video} />)}
 		</div>
 	);
 }

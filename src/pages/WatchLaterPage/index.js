@@ -10,7 +10,7 @@ function WatchLaterPage() {
 				<h2 className="mt-16">Watch Later playlist is empty</h2>
 			)}
 			{state.watchLater.map((video) => (
-				<PlayListVideosCard key={video.id} video={video} />
+				<PlayListVideosCard key={video._id} video={video} />
 			))}
 		</div>
 	);

@@ -8,9 +8,11 @@ import AppRoutes from "./routes";
 import "./App.css";
 
 function App() {
-	const { loadVideosData } = useVideoDataContext();
+	const { loadVideosData, loadUser, state } = useVideoDataContext();
+	console.log("state", state);
 
 	useEffect(() => {
+		loadUser();
 		loadVideosData();
 	}, []);
 

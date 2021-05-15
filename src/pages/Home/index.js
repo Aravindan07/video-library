@@ -13,7 +13,7 @@ function Home() {
 		<div>
 			<h2>Videos for you</h2>
 			{videosData.map((video) => (
-				<VideoListingCard key={video.id} video={video} />
+				<VideoListingCard key={video._id} video={video} />
 			))}
 		</div>
 	);

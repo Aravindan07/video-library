@@ -1,4 +1,5 @@
 export { default as AccountPage } from "./Accountpage";
+export { default as RegisterPage } from "./RegisterPage";
 export { default as HomePage } from "./Home";
 export { default as LikedVideosPage } from "./LikedVideos";
 export { default as PlaylistsPage } from "./Playlists";

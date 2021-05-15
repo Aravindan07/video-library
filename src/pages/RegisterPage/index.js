@@ -5,14 +5,14 @@ import { toast } from "react-toastify";
 import { SET__LOGOUT } from "../../constants";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
-export default function AccountPage() {
+export default function RegisterPage() {
 	useDocumentTitle("Account | CricTube");
 	const initialValues = {
 		email: "",
 		password: "",
 	};
 	const [{ email, password }, setState] = useState(initialValues);
-	const { state, dispatch, logInUser } = useVideoDataContext();
+	const { state, dispatch, registerUser } = useVideoDataContext();
 
 	const onChangeHandler = (event) => {
 		const name = event.target.name;
@@ -21,7 +21,7 @@ export default function AccountPage() {
 	};
 
 	const signInClickHandler = () => {
-		return logInUser(email, password);
+		return registerUser(email, password);
 	};
 
 	const logoutClickHandler = () => {
@@ -47,7 +47,7 @@ export default function AccountPage() {
 				</>
 			) : (
 				<>
-					<h2>Login to your account</h2>
+					<h2>Create your account</h2>
 					<input
 						type="text"
 						className="input__control mt-16 mb-16"
@@ -70,15 +70,12 @@ export default function AccountPage() {
 						className="button navbar--button font-color--white mt-16 mb-16"
 						onClick={signInClickHandler}
 					>
-						Sign In
+						Register
 					</button>
 					<p>
-						Don't have an account? <Link to="/register"> Register </Link>
+						Already have an account? <Link to="/my-account"> Login </Link>
 						here
 					</p>
-					<p>Test Credentials</p>
-					<p>Email: test123@gmail.com</p>
-					<p>Password: test@123</p>
 				</>
 			)}
 		</div>

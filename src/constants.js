@@ -1,6 +1,8 @@
 export const initialState = {
 	videosData: [],
+	user: {},
 	likedVideos: [],
+	dislikedVideos: [],
 	playlists: [],
 	watchLater: [],
 	modal: {
@@ -177,4 +179,7 @@ export const CLOSE__MOBILE__MENU = "CLOSE__MOBILE__MENU";
 export const ADD__VIDEO__TO__WATCHLATER = "ADD__VIDEO__TO__WATCHLATER";
 export const REMOVE__VIDEO__FROM__WATCHLATER = "REMOVE__VIDEO__FROM__WATCHLATER";
 export const SET__LOGIN = "SET__LOGIN";
+export const SET__SIGNUP = "SET__SIGNUP";
 export const SET__LOGOUT = "SET__LOGOUT";
+export const LOAD__USER = "LOAD__USER";
+export const LOAD__LIKED__VIDEOS = "LOAD__LIKED__VIDEOS";

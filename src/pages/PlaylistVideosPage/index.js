@@ -15,7 +15,7 @@ export default function PlaylistVideosPage() {
 		<>
 			{videosToShow.videos.length === 0 && <h2>This playlist is empty</h2>}
 			{videosToShow.videos.map((video) => (
-				<PlayListVideosCard key={video.id} video={video} />
+				<PlayListVideosCard key={video._id} video={video} />
 			))}
 		</>
 	);
