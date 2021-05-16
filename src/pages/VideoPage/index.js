@@ -6,16 +6,23 @@ import { ReactComponent as LikesIcon } from "../../icons/thumbs-up.svg";
 import { ReactComponent as DislikesIcon } from "../../icons/thumbs-down.svg";
 import { ReactComponent as AddPlaylistIcon } from "../../icons/add-playlist.svg";
 import { ReactComponent as WatchLaterIcon } from "../../icons/watch-later.svg";
+import { ReactComponent as SaveIcon } from "../../icons/save-icon.svg";
 import { useVideoDataContext } from "../../context/videoDataContext";
-import { ADD__VIDEO__TO__WATCHLATER, OPEN__MODAL } from "../../constants";
+import { OPEN__MODAL } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
 import { VideoListingCard } from "../../components";
-import { toast } from "react-toastify";
 import "./styles.css";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
 function VideoPage() {
-	const { state, dislikeClickHandler, dispatch, likeClickHandler } = useVideoDataContext();
+	const {
+		state,
+		dislikeClickHandler,
+		dispatch,
+		likeClickHandler,
+		addOrRemoveFromWatchLater,
+		addOrRemoveFromSavedVideos,
+	} = useVideoDataContext();
 	const { videoId } = useParams();
 	const dataToShow =
 		state.videosData && state.videosData.find((item) => item.videoId === videoId);
@@ -41,10 +48,16 @@ function VideoPage() {
 		);
 	};
 
+	const checkWatchLater = (id) => {
+		return state.user && state.watchLater && state.watchLater.find((el) => el._id === id);
+	};
+	const checkSavedVideos = (id) => {
+		return state.user && state.savedVideos && state.savedVideos.find((el) => el._id === id);
+	};
+
 	const reactionsClickHandler = (type) => {
 		if (state.isAuthenticated) {
 			if (type === "like") {
-				// return addVideoToLikedVideos({ ...dataToShow, liked: !dataToShow.liked });
 				return likeClickHandler(state.user._id, dataToShow._id);
 			}
 			if (type === "dislike") {
@@ -66,22 +79,14 @@ function VideoPage() {
 
 	const addVideoToWatchLater = () => {
 		if (state.isAuthenticated) {
-			dispatch({
-				type: ADD__VIDEO__TO__WATCHLATER,
-				payload: { ...dataToShow, watchLater: !dataToShow.watchLater },
-			});
-			if (!dataToShow.watchLater) {
-				return toast.success("Item added to Watch Later", {
-					style: { backgroundColor: "var(--complementary-color)" },
-					autoClose: 1500,
-					hideProgressBar: true,
-				});
-			}
-			return toast.info("Item removed from Watch Later", {
-				style: { backgroundColor: "#dcdcdc", color: "var(--font-color)" },
-				autoClose: 1500,
-				hideProgressBar: true,
-			});
+			return addOrRemoveFromWatchLater(state.user._id, dataToShow._id);
+		}
+		return navigate("/my-account");
+	};
+
+	const savedVideosHandler = () => {
+		if (state.isAuthenticated) {
+			return addOrRemoveFromSavedVideos(state.user._id, dataToShow._id);
 		}
 		return navigate("/my-account");
 	};
@@ -147,9 +152,20 @@ function VideoPage() {
 								/>
 							</div>
 							<div className="flex-row-center c-pointer ml-16">
+								<SaveIcon
+									fill={
+										checkSavedVideos(dataToShow._id)
+											? "var(--primary-color)"
+											: "var(--font-color)"
+									}
+									className="w-20 mr-8"
+									onClick={() => savedVideosHandler()}
+								/>
+							</div>
+							<div className="flex-row-center c-pointer ml-16">
 								<WatchLaterIcon
 									fill={
-										dataToShow.watchLater
+										checkWatchLater(dataToShow._id)
 											? "var(--complementary-color)"
 											: "var(--font-color)"
 									}

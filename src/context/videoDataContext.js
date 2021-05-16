@@ -9,9 +9,7 @@ const { REACT_APP_BACKEND_URL } = process.env;
 
 export const TokenConfig = () => {
 	//Get token from localStorage
-
 	const token = localStorage.getItem("token");
-	console.log(token);
 	// const token = getState().authentication.token;
 
 	//Headers
@@ -29,7 +27,7 @@ export const TokenConfig = () => {
 	return config;
 };
 
-const VideoDataContext = createContext();
+export const VideoDataContext = createContext();
 
 export default function VideoDataProvider({ children }) {
 	let navigate = useNavigate();
@@ -134,17 +132,22 @@ export default function VideoDataProvider({ children }) {
 		dispatch({ type: Actions.CLICKED__ON__DISLIKE, payload: data });
 	};
 
-	const getLikedVideos = async (userId) => {
-		try {
-			const { data } = await axios.get(
-				`${REACT_APP_BACKEND_URL}/videos/${userId}/liked-videos`,
-				TokenConfig()
-			);
-			console.log("liked Videos Data", data);
-			dispatch({ type: Actions.LOAD__LIKED__VIDEOS, payload: data.likedVideos });
-		} catch (error) {
-			console.error(error);
-		}
+	const addOrRemoveFromWatchLater = async (userId, videoId) => {
+		const { data } = await axios.post(
+			`${REACT_APP_BACKEND_URL}/users/${userId}/watch-later`,
+			{ userId, videoId },
+			TokenConfig()
+		);
+		dispatch({ type: Actions.ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER, payload: data });
+	};
+
+	const addOrRemoveFromSavedVideos = async (userId, videoId) => {
+		const { data } = await axios.post(
+			`${REACT_APP_BACKEND_URL}/users/${userId}/save-videos`,
+			{ userId, videoId },
+			TokenConfig()
+		);
+		dispatch({ type: Actions.ADD__OR__REMOVE__VIDEO__FROM__SAVED__VIDEOS, payload: data });
 	};
 
 	return (
@@ -153,13 +156,13 @@ export default function VideoDataProvider({ children }) {
 				state,
 				dispatch,
 				loadVideosData,
-				// addVideoToLikedVideos,
 				dislikeClickHandler,
 				logInUser,
 				registerUser,
 				loadUser,
 				likeClickHandler,
-				getLikedVideos,
+				addOrRemoveFromWatchLater,
+				addOrRemoveFromSavedVideos,
 			}}
 		>
 			{children}

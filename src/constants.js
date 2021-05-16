@@ -5,6 +5,7 @@ export const initialState = {
 	dislikedVideos: [],
 	playlists: [],
 	watchLater: [],
+	savedVideos: [],
 	modal: {
 		isModalOpen: false,
 		modalType: "",
@@ -13,14 +14,6 @@ export const initialState = {
 	openMobileMenu: false,
 	isAuthenticated: false,
 };
-
-export const navLinks = [
-	{ name: "Home", path: "/" },
-	{ name: "Playlists", path: "/my-playlists" },
-	{ name: "Liked Videos", path: "/liked-videos" },
-	{ name: "Watch Later", path: "/watch-later" },
-	{ name: "My Account", path: "my-account" },
-];
 
 export const videoData = [
 	{
@@ -166,7 +159,6 @@ export const videoData = [
 
 export const LOAD__VIDEOS__DATA = "LOAD__VIDEOS__DATA";
 export const ADD__TO__LIKED__VIDEOS = "ADD__TO__LIKED__VIDEOS";
-export const ADD__TO__WATCH__LATER = "ADD__TO__WATCH__LATER";
 export const CLICKED__ON__DISLIKE = "CLICKED__ON__DISLIKE";
 export const OPEN__MODAL = "OPEN__MODAL";
 export const CLOSE__MODAL = "CLOSE__MODAL";
@@ -176,10 +168,10 @@ export const REMOVE__VIDEO__FROM__PLAYLIST = "REMOVE__VIDEO__FROM__PLAYLIST";
 export const REMOVE__PLAYLIST = "REMOVE__PLAYLIST";
 export const OPEN__MOBILE__MENU = "OPEN__MOBILE__MENU";
 export const CLOSE__MOBILE__MENU = "CLOSE__MOBILE__MENU";
-export const ADD__VIDEO__TO__WATCHLATER = "ADD__VIDEO__TO__WATCHLATER";
-export const REMOVE__VIDEO__FROM__WATCHLATER = "REMOVE__VIDEO__FROM__WATCHLATER";
+export const ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER = "ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER";
 export const SET__LOGIN = "SET__LOGIN";
 export const SET__SIGNUP = "SET__SIGNUP";
 export const SET__LOGOUT = "SET__LOGOUT";
 export const LOAD__USER = "LOAD__USER";
 export const LOAD__LIKED__VIDEOS = "LOAD__LIKED__VIDEOS";
+export const ADD__OR__REMOVE__VIDEO__FROM__SAVED__VIDEOS = "ADD__VIDEO__TO__SAVED__VIDEOS";

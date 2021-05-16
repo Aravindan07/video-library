@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { navLinks, CLOSE__MOBILE__MENU } from "../../constants";
+import { CLOSE__MOBILE__MENU } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
+import { useLinks } from "../../utils/useLinks";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { ReactComponent as CloseSidebarIcon } from "../../icons/close-sidebar.svg";
 import "./styles.css";
@@ -12,6 +13,8 @@ function Sidebar() {
 		state: { openMobileMenu },
 		dispatch,
 	} = useVideoDataContext();
+
+	const navLinks = useLinks();
 
 	const closeSidebarHandler = () => {
 		return dispatch({ type: CLOSE__MOBILE__MENU });

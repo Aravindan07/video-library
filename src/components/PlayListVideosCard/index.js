@@ -5,15 +5,15 @@ import { ReactComponent as HeartIcon } from "../../icons/heart.svg";
 import { ReactComponent as DeleteIcon } from "../../icons/trash.svg";
 import { useNavigate, useParams } from "react-router";
 import { useVideoDataContext } from "../../context/videoDataContext";
-import { REMOVE__VIDEO__FROM__PLAYLIST, REMOVE__VIDEO__FROM__WATCHLATER } from "../../constants";
+// import { REMOVE__VIDEO__FROM__PLAYLIST } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
-import { toast } from "react-toastify";
 import "../VideoListingCard/styles.css";
 
-function PlayListVideosCard({ video }) {
+function PlayListVideosCard({ video, from }) {
+	console.log("from", from);
 	const navigate = useNavigate();
-	const { playlistId } = useParams();
-	const { state, dispatch } = useVideoDataContext();
+	// const { playlistId } = useParams();
+	const { state, addOrRemoveFromWatchLater, addOrRemoveFromSavedVideos } = useVideoDataContext();
 	const [width] = useMediaQuery();
 
 	const showVideoPage = () => {
@@ -22,18 +22,16 @@ function PlayListVideosCard({ video }) {
 
 	const deleteVideoHandler = (event) => {
 		event.stopPropagation();
-		if (state.watchLater.length > 0) {
-			dispatch({ type: REMOVE__VIDEO__FROM__WATCHLATER, payload: { id: video.id } });
-			return toast.success("Item removed from Watch Later", {
-				style: { backgroundColor: "var(--complementary-color)" },
-				autoClose: 1500,
-				hideProgressBar: true,
-			});
+		if (from === "watchLater") {
+			return addOrRemoveFromWatchLater(state.user._id, video._id);
 		}
-		return dispatch({
-			type: REMOVE__VIDEO__FROM__PLAYLIST,
-			payload: { playlistId, id: video.id },
-		});
+		if (from === "savedVideos") {
+			return addOrRemoveFromSavedVideos(state.user._id, video._id);
+		}
+		// return dispatch({
+		// 	type: REMOVE__VIDEO__FROM__PLAYLIST,
+		// 	payload: { playlistId, id: video.id },
+		// });
 	};
 
 	return (
