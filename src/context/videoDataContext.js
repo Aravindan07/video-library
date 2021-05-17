@@ -52,7 +52,6 @@ export default function VideoDataProvider({ children }) {
 	const loadVideosData = async () => {
 		try {
 			const { data } = await axios.get(`${REACT_APP_BACKEND_URL}/videos`);
-			console.log("data in videos", data);
 			dispatch({ type: Actions.LOAD__VIDEOS__DATA, payload: data });
 		} catch (error) {
 			console.error(error);
@@ -65,7 +64,7 @@ export default function VideoDataProvider({ children }) {
 			dispatch({ type: Actions.LOAD__USER, payload: data });
 		} catch (error) {
 			console.error(error);
-			toast.error(error.message, {
+			toast.error("Please Login/Register to continue", {
 				style: { backgroundColor: "var(--complementary-color)" },
 				autoClose: 2000,
 				hideProgressBar: true,
@@ -122,7 +121,7 @@ export default function VideoDataProvider({ children }) {
 				TokenConfig()
 			);
 			dispatch({ type: Actions.ADD__TO__LIKED__VIDEOS, payload: data });
-			toast.success("Added to liked Videos", {
+			toast.success(data.message, {
 				style: { backgroundColor: "var(--complementary-color)" },
 				autoClose: 2000,
 				hideProgressBar: true,

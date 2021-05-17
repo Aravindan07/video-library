@@ -7,7 +7,6 @@ import "../VideoListingCard/styles.css";
 import { useMediaQuery } from "../../utils/useMediaQueries";
 
 function PlayListCard({ data }) {
-	console.log("Inside playlist data", data);
 	const { state, playlistHandlers } = useVideoDataContext();
 	let navigate = useNavigate();
 
@@ -19,7 +18,6 @@ function PlayListCard({ data }) {
 
 	const deletePlaylistHandler = (event) => {
 		event.stopPropagation();
-		// return dispatch({ type: REMOVE__PLAYLIST, payload: { playlistId: data.playlistId } });
 		return playlistHandlers("deletePlaylist", state.user._id, null, null, data._id);
 	};
 

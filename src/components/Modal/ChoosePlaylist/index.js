@@ -5,7 +5,6 @@ import { ReactComponent as CloseIcon } from "../../../icons/close-sidebar.svg";
 import "./styles.css";
 
 function ChoosePlaylist({ data }) {
-	console.log("data in choose", data);
 	const {
 		state: { playlists, user },
 		playlistHandlers,
@@ -24,20 +23,8 @@ function ChoosePlaylist({ data }) {
 	};
 
 	const findPlaylist = playlists.find((el) => el.playlistName === focus);
-	console.log("findPlaylist", findPlaylist);
 
 	const addVideoToPlaylist = () => {
-		// let videoToAdd = playlists.find((el) => el.playListName === focus);
-		// dispatch({ type: CLOSE__MODAL });
-		// dispatch({
-		// 	type: ADD__VIDEO__TO__EXISTING__PLAYLIST,
-		// 	payload: { playlistId: videoToAdd.playlistId, data: data },
-		// });
-		// return toast.success(`Item added to playlist ${focus}`, {
-		// 	style: { backgroundColor: "var(--complementary-color)" },
-		// 	autoClose: 1500,
-		// 	hideProgressBar: true,
-		// });
 		if (focus === "") {
 			return null;
 		}

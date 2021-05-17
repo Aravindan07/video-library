@@ -23,7 +23,6 @@ export const videoDataReducer = (state, { type, payload }) => {
 						payload.item.videos.length > 0 &&
 						el._id === payload.item.videos[payload.item.videos.length - 1]._id
 					) {
-						console.log("inside if");
 						return el._id === payload.item.videos[payload.item.videos.length - 1]._id
 							? {
 									...el,
