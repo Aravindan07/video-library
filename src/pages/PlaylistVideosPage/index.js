@@ -10,12 +10,17 @@ export default function PlaylistVideosPage() {
 	const {
 		state: { playlists },
 	} = useVideoDataContext();
-	const videosToShow = playlists.find((el) => el.playlistId === playlistId);
+	const videosToShow = playlists.find((el) => el._id === playlistId);
 	return (
 		<>
 			{videosToShow.videos.length === 0 && <h2>This playlist is empty</h2>}
 			{videosToShow.videos.map((video) => (
-				<PlayListVideosCard key={video._id} video={video} />
+				<PlayListVideosCard
+					key={video._id}
+					video={video}
+					from="playlistVideos"
+					playlistId={playlistId}
+				/>
 			))}
 		</>
 	);

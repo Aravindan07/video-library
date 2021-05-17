@@ -3,17 +3,15 @@ import { ReactComponent as VideoIcon } from "../../icons/video.svg";
 import { ReactComponent as VideoViewIcon } from "../../icons/video-view.svg";
 import { ReactComponent as HeartIcon } from "../../icons/heart.svg";
 import { ReactComponent as DeleteIcon } from "../../icons/trash.svg";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useVideoDataContext } from "../../context/videoDataContext";
-// import { REMOVE__VIDEO__FROM__PLAYLIST } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
 import "../VideoListingCard/styles.css";
 
-function PlayListVideosCard({ video, from }) {
-	console.log("from", from);
+function PlayListVideosCard({ video, from, playlistId }) {
 	const navigate = useNavigate();
-	// const { playlistId } = useParams();
-	const { state, addOrRemoveFromWatchLater, addOrRemoveFromSavedVideos } = useVideoDataContext();
+	const { state, addOrRemoveFromWatchLater, addOrRemoveFromSavedVideos, playlistHandlers } =
+		useVideoDataContext();
 	const [width] = useMediaQuery();
 
 	const showVideoPage = () => {
@@ -28,10 +26,15 @@ function PlayListVideosCard({ video, from }) {
 		if (from === "savedVideos") {
 			return addOrRemoveFromSavedVideos(state.user._id, video._id);
 		}
-		// return dispatch({
-		// 	type: REMOVE__VIDEO__FROM__PLAYLIST,
-		// 	payload: { playlistId, id: video.id },
-		// });
+		if (from === "playlistVideos") {
+			return playlistHandlers(
+				"deleteVideoFromPlaylist",
+				state.user._id,
+				video._id,
+				null,
+				playlistId
+			);
+		}
 	};
 
 	return (

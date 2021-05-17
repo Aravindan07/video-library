@@ -1,19 +1,23 @@
-export const initialState = {
-	videosData: [],
-	user: {},
-	likedVideos: [],
-	dislikedVideos: [],
-	playlists: [],
-	watchLater: [],
-	savedVideos: [],
-	modal: {
-		isModalOpen: false,
-		modalType: "",
-		data: null,
-	},
-	openMobileMenu: false,
-	isAuthenticated: false,
-};
+export const LOAD__VIDEOS__DATA = "LOAD__VIDEOS__DATA";
+export const ADD__TO__LIKED__VIDEOS = "ADD__TO__LIKED__VIDEOS";
+export const CLICKED__ON__DISLIKE = "CLICKED__ON__DISLIKE";
+export const OPEN__MODAL = "OPEN__MODAL";
+export const CLOSE__MODAL = "CLOSE__MODAL";
+export const ADD__TO__PLAYLIST = "ADD__TO__PLAYLIST";
+export const ADD__VIDEO__TO__EXISTING__PLAYLIST = "ADD__VIDEO__TO__EXISTING__PLAYLIST";
+export const REMOVE__VIDEO__FROM__PLAYLIST = "REMOVE__VIDEO__FROM__PLAYLIST";
+export const REMOVE__PLAYLIST = "REMOVE__PLAYLIST";
+export const OPEN__MOBILE__MENU = "OPEN__MOBILE__MENU";
+export const CLOSE__MOBILE__MENU = "CLOSE__MOBILE__MENU";
+export const ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER = "ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER";
+export const SET__LOGIN = "SET__LOGIN";
+export const SET__SIGNUP = "SET__SIGNUP";
+export const SET__LOGOUT = "SET__LOGOUT";
+export const LOAD__USER = "LOAD__USER";
+export const LOAD__LIKED__VIDEOS = "LOAD__LIKED__VIDEOS";
+export const ADD__OR__REMOVE__VIDEO__FROM__SAVED__VIDEOS =
+	"ADD__OR__REMOVE__VIDEO__FROM__SAVED__VIDEOS";
+export const ADD__OR__REMOVE__FROM__PLAYLISTS = "ADD__OR__REMOVE__FROM__PLAYLISTS";
 
 export const videoData = [
 	{
@@ -156,22 +160,3 @@ export const videoData = [
 		channel: "Safal Future in cricket",
 	},
 ];
-
-export const LOAD__VIDEOS__DATA = "LOAD__VIDEOS__DATA";
-export const ADD__TO__LIKED__VIDEOS = "ADD__TO__LIKED__VIDEOS";
-export const CLICKED__ON__DISLIKE = "CLICKED__ON__DISLIKE";
-export const OPEN__MODAL = "OPEN__MODAL";
-export const CLOSE__MODAL = "CLOSE__MODAL";
-export const ADD__TO__PLAYLIST = "ADD__TO__PLAYLIST";
-export const ADD__VIDEO__TO__EXISTING__PLAYLIST = "ADD__VIDEO__TO__EXISTING__PLAYLIST";
-export const REMOVE__VIDEO__FROM__PLAYLIST = "REMOVE__VIDEO__FROM__PLAYLIST";
-export const REMOVE__PLAYLIST = "REMOVE__PLAYLIST";
-export const OPEN__MOBILE__MENU = "OPEN__MOBILE__MENU";
-export const CLOSE__MOBILE__MENU = "CLOSE__MOBILE__MENU";
-export const ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER = "ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER";
-export const SET__LOGIN = "SET__LOGIN";
-export const SET__SIGNUP = "SET__SIGNUP";
-export const SET__LOGOUT = "SET__LOGOUT";
-export const LOAD__USER = "LOAD__USER";
-export const LOAD__LIKED__VIDEOS = "LOAD__LIKED__VIDEOS";
-export const ADD__OR__REMOVE__VIDEO__FROM__SAVED__VIDEOS = "ADD__VIDEO__TO__SAVED__VIDEOS";

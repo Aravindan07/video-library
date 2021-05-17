@@ -77,8 +77,8 @@ export default function AccountPage() {
 						here
 					</p>
 					<p>Test Credentials</p>
-					<p>Email: test123@gmail.com</p>
-					<p>Password: test@123</p>
+					<p>Email: check123@gmail.com</p>
+					<p>Password: check@123</p>
 				</>
 			)}
 		</div>

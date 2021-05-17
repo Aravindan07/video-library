@@ -108,39 +108,10 @@ export const videoDataReducer = (state, { type, payload }) => {
 				},
 			};
 
-		case Actions.ADD__TO__PLAYLIST:
+		case Actions.ADD__OR__REMOVE__FROM__PLAYLISTS:
 			return {
 				...state,
-				playlists: [...state.playlists, payload],
-			};
-
-		case Actions.ADD__VIDEO__TO__EXISTING__PLAYLIST:
-			return {
-				...state,
-				playlists: state.playlists.map((el) =>
-					el.playlistId === payload.playlistId
-						? { ...el, videos: [...el.videos, payload.data] }
-						: el
-				),
-			};
-
-		case Actions.REMOVE__VIDEO__FROM__PLAYLIST:
-			return {
-				...state,
-				playlists: state.playlists.map((el) =>
-					el.playlistId === payload.playlistId
-						? {
-								...el,
-								videos: el.videos.filter((video) => video.id !== payload.id),
-						  }
-						: el
-				),
-			};
-
-		case Actions.REMOVE__PLAYLIST:
-			return {
-				...state,
-				playlists: state.playlists.filter((el) => el.playlistId !== payload.playlistId),
+				playlists: [...payload.item.playlists],
 			};
 
 		case Actions.OPEN__MOBILE__MENU:
@@ -179,6 +150,8 @@ export const videoDataReducer = (state, { type, payload }) => {
 					payload.user.watchLater.length > 0 ? payload.user.watchLater[0].videos : [],
 				savedVideos:
 					payload.user.savedVideos.length > 0 ? payload.user.savedVideos[0].videos : [],
+				playlists:
+					payload.user.playlists.length > 0 ? payload.user.playlists[0].playlists : [],
 			};
 
 		case Actions.SET__SIGNUP:
@@ -204,6 +177,8 @@ export const videoDataReducer = (state, { type, payload }) => {
 					payload.user.watchLater.length > 0 ? payload.user.watchLater[0].videos : [],
 				savedVideos:
 					payload.user.savedVideos.length > 0 ? payload.user.savedVideos[0].videos : [],
+				playlists:
+					payload.user.playlists.length > 0 ? payload.user.playlists[0].playlists : [],
 			};
 
 		case Actions.SET__LOGOUT:

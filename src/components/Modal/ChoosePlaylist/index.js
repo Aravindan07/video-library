@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { ADD__VIDEO__TO__EXISTING__PLAYLIST, CLOSE__MODAL, OPEN__MODAL } from "../../../constants";
+import { CLOSE__MODAL, OPEN__MODAL } from "../../../constants";
 import { useVideoDataContext } from "../../../context/videoDataContext";
 import { ReactComponent as CloseIcon } from "../../../icons/close-sidebar.svg";
-import { toast } from "react-toastify";
 import "./styles.css";
 
 function ChoosePlaylist({ data }) {
+	console.log("data in choose", data);
 	const {
-		state: { playlists },
+		state: { playlists, user },
+		playlistHandlers,
 		dispatch,
 	} = useVideoDataContext();
 
@@ -22,18 +23,25 @@ function ChoosePlaylist({ data }) {
 		return dispatch({ type: OPEN__MODAL, payload: { modalType: "addPlaylist", data: data } });
 	};
 
+	const findPlaylist = playlists.find((el) => el.playlistName === focus);
+	console.log("findPlaylist", findPlaylist);
+
 	const addVideoToPlaylist = () => {
-		let videoToAdd = playlists.find((el) => el.playListName === focus);
-		dispatch({ type: CLOSE__MODAL });
-		dispatch({
-			type: ADD__VIDEO__TO__EXISTING__PLAYLIST,
-			payload: { playlistId: videoToAdd.playlistId, data: data },
-		});
-		return toast.success(`Item added to playlist ${focus}`, {
-			style: { backgroundColor: "var(--complementary-color)" },
-			autoClose: 1500,
-			hideProgressBar: true,
-		});
+		// let videoToAdd = playlists.find((el) => el.playListName === focus);
+		// dispatch({ type: CLOSE__MODAL });
+		// dispatch({
+		// 	type: ADD__VIDEO__TO__EXISTING__PLAYLIST,
+		// 	payload: { playlistId: videoToAdd.playlistId, data: data },
+		// });
+		// return toast.success(`Item added to playlist ${focus}`, {
+		// 	style: { backgroundColor: "var(--complementary-color)" },
+		// 	autoClose: 1500,
+		// 	hideProgressBar: true,
+		// });
+		if (focus === "") {
+			return null;
+		}
+		return playlistHandlers("addVideoToPlaylist", user._id, data._id, null, findPlaylist._id);
 	};
 
 	const closeModalHandler = () => {
@@ -60,13 +68,13 @@ function ChoosePlaylist({ data }) {
 				<div className="flex-col-center mt-16 mb-16 w100">
 					{playlists.map((el) => (
 						<div
-							key={el.playlistId}
+							key={el._id}
 							className={`playlist-div c-pointer ls-medium-px mt-8 mb-8 ${
-								focus === el.playListName ? "focused-div" : ""
+								focus === el.playlistName ? "focused-div" : ""
 							}`}
-							onClick={(e) => setFocusHandler(el.playListName)}
+							onClick={(e) => setFocusHandler(el.playlistName)}
 						>
-							{el.playListName}
+							{el.playlistName}
 						</div>
 					))}
 					<div className="flex-row-space-between w80">

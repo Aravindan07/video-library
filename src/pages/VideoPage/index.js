@@ -10,6 +10,13 @@ import { ReactComponent as SaveIcon } from "../../icons/save-icon.svg";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { OPEN__MODAL } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
+import {
+	checkPlaylist,
+	checkLiked,
+	checkDisliked,
+	checkWatchLater,
+	checkSavedVideos,
+} from "../../utils/helperFunctions";
 import { VideoListingCard } from "../../components";
 import "./styles.css";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
@@ -26,8 +33,6 @@ function VideoPage() {
 	const { videoId } = useParams();
 	const dataToShow =
 		state.videosData && state.videosData.find((item) => item.videoId === videoId);
-	console.log("dataToShow", dataToShow);
-	console.log("state", state);
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [dataToShow]);
@@ -37,23 +42,6 @@ function VideoPage() {
 	let navigate = useNavigate();
 
 	const [width] = useMediaQuery();
-
-	const checkLiked = (id) => {
-		return state.user && state.likedVideos && state.likedVideos.find((el) => el._id === id);
-	};
-
-	const checkDisliked = (id) => {
-		return (
-			state.user && state.dislikedVideos && state.dislikedVideos.find((el) => el._id === id)
-		);
-	};
-
-	const checkWatchLater = (id) => {
-		return state.user && state.watchLater && state.watchLater.find((el) => el._id === id);
-	};
-	const checkSavedVideos = (id) => {
-		return state.user && state.savedVideos && state.savedVideos.find((el) => el._id === id);
-	};
 
 	const reactionsClickHandler = (type) => {
 		if (state.isAuthenticated) {
@@ -115,7 +103,7 @@ function VideoPage() {
 							<p className="mt-8 fw-600">{dataToShow.channel}</p>
 							<p className="mt-8 gray-text">{dataToShow.publishedDate}</p>
 						</div>
-						<div className="flex-row">
+						<div className="flex-row h-30 mt-8 mb-8">
 							<div className="flex-row-center c-pointer mr-16">
 								<VideoViewsIcon className="w-20 mr-8" />
 								<p>{dataToShow.views}</p>
@@ -123,7 +111,7 @@ function VideoPage() {
 							<div className="flex-row-center c-pointer ml-16">
 								<LikesIcon
 									fill={
-										checkLiked(dataToShow._id)
+										checkLiked(state.user, state.likedVideos, dataToShow._id)
 											? "#2563EB"
 											: "var(--background-color)"
 									}
@@ -135,7 +123,11 @@ function VideoPage() {
 							<div className="flex-row-center c-pointer ml-16">
 								<DislikesIcon
 									fill={
-										checkDisliked(dataToShow._id)
+										checkDisliked(
+											state.user,
+											state.dislikedVideos,
+											dataToShow._id
+										)
 											? "var(--complementary-color)"
 											: "var(--background-color)"
 									}
@@ -144,9 +136,18 @@ function VideoPage() {
 								/>
 								<p>{dataToShow.dislikes}</p>
 							</div>
-							<div className="flex-row-center c-pointer ml-16">
+							<div className="flex-row-center c-pointer ml-16 icon-div">
+								{checkPlaylist(state.playlists, dataToShow._id) > 0 && (
+									<div className="notification-div">
+										{checkPlaylist(state.playlists, dataToShow._id)}
+									</div>
+								)}
 								<AddPlaylistIcon
-									fill={state.playlists.length > 0 ? "#2563EB" : ""}
+									fill={
+										checkPlaylist(state.playlists, dataToShow._id) > 0
+											? "var(--primary-color)"
+											: ""
+									}
 									className="w-20 mr-8"
 									onClick={() => openModalHandler()}
 								/>
@@ -154,18 +155,26 @@ function VideoPage() {
 							<div className="flex-row-center c-pointer ml-16">
 								<SaveIcon
 									fill={
-										checkSavedVideos(dataToShow._id)
+										checkSavedVideos(
+											state.user,
+											state.savedVideos,
+											dataToShow._id
+										)
 											? "var(--primary-color)"
 											: "var(--font-color)"
 									}
-									className="w-20 mr-8"
+									className="w-20 mr-8 h-30"
 									onClick={() => savedVideosHandler()}
 								/>
 							</div>
 							<div className="flex-row-center c-pointer ml-16">
 								<WatchLaterIcon
 									fill={
-										checkWatchLater(dataToShow._id)
+										checkWatchLater(
+											state.user,
+											state.watchLater,
+											dataToShow._id
+										)
 											? "var(--complementary-color)"
 											: "var(--font-color)"
 									}

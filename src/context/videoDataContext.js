@@ -7,10 +7,26 @@ import { useNavigate } from "react-router";
 
 const { REACT_APP_BACKEND_URL } = process.env;
 
+export const initialState = {
+	videosData: [],
+	user: {},
+	likedVideos: [],
+	dislikedVideos: [],
+	playlists: [],
+	watchLater: [],
+	savedVideos: [],
+	modal: {
+		isModalOpen: false,
+		modalType: "",
+		data: null,
+	},
+	openMobileMenu: false,
+	isAuthenticated: false,
+};
+
 export const TokenConfig = () => {
 	//Get token from localStorage
 	const token = localStorage.getItem("token");
-	// const token = getState().authentication.token;
 
 	//Headers
 	const config = {
@@ -31,7 +47,7 @@ export const VideoDataContext = createContext();
 
 export default function VideoDataProvider({ children }) {
 	let navigate = useNavigate();
-	const [state, dispatch] = useReducer(videoDataReducer, Actions.initialState);
+	const [state, dispatch] = useReducer(videoDataReducer, initialState);
 
 	const loadVideosData = async () => {
 		try {
@@ -46,10 +62,14 @@ export default function VideoDataProvider({ children }) {
 	const loadUser = async () => {
 		try {
 			const { data } = await axios.get(`${REACT_APP_BACKEND_URL}/users`, TokenConfig());
-			console.log("Data from load", data);
 			dispatch({ type: Actions.LOAD__USER, payload: data });
 		} catch (error) {
 			console.error(error);
+			toast.error(error.message, {
+				style: { backgroundColor: "var(--complementary-color)" },
+				autoClose: 2000,
+				hideProgressBar: true,
+			});
 		}
 	};
 
@@ -59,10 +79,9 @@ export default function VideoDataProvider({ children }) {
 				email,
 				password,
 			});
-			console.log(data);
 			dispatch({ type: Actions.SET__LOGIN, payload: data });
 			toast.success("Logged in successfully", {
-				style: { backgroundColor: "##15b996" },
+				style: { backgroundColor: "#15b996" },
 				autoClose: 2000,
 				hideProgressBar: true,
 			});
@@ -83,7 +102,6 @@ export default function VideoDataProvider({ children }) {
 				email,
 				password,
 			});
-			console.log(data);
 			dispatch({ type: Actions.SET__SIGNUP, payload: data });
 			toast.success("User registered successfully", {
 				style: { backgroundColor: "##15b996" },
@@ -97,57 +115,129 @@ export default function VideoDataProvider({ children }) {
 	};
 
 	const likeClickHandler = async (userId, videoId) => {
-		const { data } = await axios.post(
-			`${REACT_APP_BACKEND_URL}/videos/${userId}/${videoId}/like`,
-			{ userId, videoId },
-			TokenConfig()
-		);
-		console.log("Data after like", data);
-		dispatch({ type: Actions.ADD__TO__LIKED__VIDEOS, payload: data });
+		try {
+			const { data } = await axios.post(
+				`${REACT_APP_BACKEND_URL}/videos/${userId}/${videoId}/like`,
+				{ userId, videoId },
+				TokenConfig()
+			);
+			dispatch({ type: Actions.ADD__TO__LIKED__VIDEOS, payload: data });
+			toast.success("Added to liked Videos", {
+				style: { backgroundColor: "var(--complementary-color)" },
+				autoClose: 2000,
+				hideProgressBar: true,
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
-	// const addVideoToLikedVideos = (item) => {
-	// 	dispatch({ type: Actions.ADD__TO__LIKED__VIDEOS, payload: item });
-	// 	if (item.liked) {
-	// 		return toast.success("Item added to liked videos", {
-	// 			style: { backgroundColor: "var(--complementary-color)" },
-	// 			autoClose: 1500,
-	// 			hideProgressBar: true,
-	// 		});
-	// 	}
-	// 	return toast.info("Item removed from liked videos", {
-	// 		style: { backgroundColor: "#dcdcdc", color: "var(--font-color)" },
-	// 		autoClose: 1500,
-	// 		hideProgressBar: true,
-	// 	});
-	// };
-
 	const dislikeClickHandler = async (userId, videoId) => {
-		const { data } = await axios.post(
-			`${REACT_APP_BACKEND_URL}/videos/${userId}/${videoId}/dislike`,
-			{ userId, videoId },
-			TokenConfig()
-		);
-		console.log("Data after dislike", data);
-		dispatch({ type: Actions.CLICKED__ON__DISLIKE, payload: data });
+		try {
+			const { data } = await axios.post(
+				`${REACT_APP_BACKEND_URL}/videos/${userId}/${videoId}/dislike`,
+				{ userId, videoId },
+				TokenConfig()
+			);
+			dispatch({ type: Actions.CLICKED__ON__DISLIKE, payload: data });
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const addOrRemoveFromWatchLater = async (userId, videoId) => {
-		const { data } = await axios.post(
-			`${REACT_APP_BACKEND_URL}/users/${userId}/watch-later`,
-			{ userId, videoId },
-			TokenConfig()
-		);
-		dispatch({ type: Actions.ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER, payload: data });
+		try {
+			const { data } = await axios.post(
+				`${REACT_APP_BACKEND_URL}/users/${userId}/watch-later`,
+				{ userId, videoId },
+				TokenConfig()
+			);
+			toast.success(data.message, {
+				style: { backgroundColor: "var(--complementary-color)" },
+				autoClose: 2000,
+				hideProgressBar: true,
+			});
+			dispatch({ type: Actions.ADD__OR__REMOVE__VIDEO__FROM__WATCHLATER, payload: data });
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const addOrRemoveFromSavedVideos = async (userId, videoId) => {
-		const { data } = await axios.post(
-			`${REACT_APP_BACKEND_URL}/users/${userId}/save-videos`,
-			{ userId, videoId },
-			TokenConfig()
-		);
-		dispatch({ type: Actions.ADD__OR__REMOVE__VIDEO__FROM__SAVED__VIDEOS, payload: data });
+		try {
+			const { data } = await axios.post(
+				`${REACT_APP_BACKEND_URL}/users/${userId}/save-videos`,
+				{ userId, videoId },
+				TokenConfig()
+			);
+			toast.success(data.message, {
+				style: { backgroundColor: "var(--complementary-color)" },
+				autoClose: 2000,
+				hideProgressBar: true,
+			});
+			dispatch({ type: Actions.ADD__OR__REMOVE__VIDEO__FROM__SAVED__VIDEOS, payload: data });
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
+	const playlistHandlers = async (
+		actionType,
+		userId,
+		videoId = null,
+		playlistName = null,
+		playlistId = null
+	) => {
+		try {
+			if (actionType === "createNewPlaylist") {
+				const { data } = await axios.post(
+					`${REACT_APP_BACKEND_URL}/users/${userId}/playlists`,
+					{ userId, videoId, playlistName },
+					TokenConfig()
+				);
+				dispatch({ type: Actions.ADD__OR__REMOVE__FROM__PLAYLISTS, payload: data });
+				toast.success(`Video added to playlist ${playlistName}`, {
+					style: { backgroundColor: "var(--complementary-color)" },
+					autoClose: 2000,
+					hideProgressBar: true,
+				});
+				return dispatch({ type: Actions.CLOSE__MODAL });
+			}
+			if (actionType === "addVideoToPlaylist") {
+				const { data } = await axios.put(
+					`${REACT_APP_BACKEND_URL}/users/${userId}/playlists/${playlistId}`,
+					{ userId, playlistId, videoId },
+					TokenConfig()
+				);
+				dispatch({ type: Actions.ADD__OR__REMOVE__FROM__PLAYLISTS, payload: data });
+				toast.success(`Video added to playlist`, {
+					style: { backgroundColor: "var(--complementary-color)" },
+					autoClose: 2000,
+					hideProgressBar: true,
+				});
+				return dispatch({ type: Actions.CLOSE__MODAL });
+			}
+			if (actionType === "deletePlaylist") {
+				const { data } = await axios.put(
+					`${REACT_APP_BACKEND_URL}/users/${userId}/playlists/${playlistId}/delete`,
+					{ userId, playlistId },
+					TokenConfig()
+				);
+				dispatch({ type: Actions.ADD__OR__REMOVE__FROM__PLAYLISTS, payload: data });
+				return dispatch({ type: Actions.CLOSE__MODAL });
+			}
+			if (actionType === "deleteVideoFromPlaylist") {
+				const { data } = await axios.put(
+					`${REACT_APP_BACKEND_URL}/users/${userId}/playlists/${playlistId}/${videoId}/delete`,
+					{ userId, playlistId, videoId },
+					TokenConfig()
+				);
+				dispatch({ type: Actions.ADD__OR__REMOVE__FROM__PLAYLISTS, payload: data });
+				return dispatch({ type: Actions.CLOSE__MODAL });
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -163,6 +253,7 @@ export default function VideoDataProvider({ children }) {
 				likeClickHandler,
 				addOrRemoveFromWatchLater,
 				addOrRemoveFromSavedVideos,
+				playlistHandlers,
 			}}
 		>
 			{children}

@@ -4,22 +4,23 @@ import { useNavigate } from "react-router-dom";
 import { ReactComponent as DeleteIcon } from "../../icons/trash.svg";
 import "./styles.css";
 import "../VideoListingCard/styles.css";
-import { REMOVE__PLAYLIST } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
 
 function PlayListCard({ data }) {
-	const { dispatch } = useVideoDataContext();
+	console.log("Inside playlist data", data);
+	const { state, playlistHandlers } = useVideoDataContext();
 	let navigate = useNavigate();
 
 	const [width] = useMediaQuery();
 
 	const showPlaylistVideos = () => {
-		return navigate(`${data.playlistId}`);
+		return navigate(`${data._id}`);
 	};
 
 	const deletePlaylistHandler = (event) => {
 		event.stopPropagation();
-		return dispatch({ type: REMOVE__PLAYLIST, payload: { playlistId: data.playlistId } });
+		// return dispatch({ type: REMOVE__PLAYLIST, payload: { playlistId: data.playlistId } });
+		return playlistHandlers("deletePlaylist", state.user._id, null, null, data._id);
 	};
 
 	return (
@@ -48,7 +49,7 @@ function PlayListCard({ data }) {
 				}`}
 			>
 				<h2 className="product__name ls-medium-px ls-medium-px mb-16">
-					{data.playListName}
+					{data.playlistName}
 				</h2>
 				<p className="gray-text">
 					Total Videos:

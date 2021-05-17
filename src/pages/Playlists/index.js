@@ -20,7 +20,7 @@ function Playlists() {
 				<h2 className={`${width <= 520 && "mt-16"} text-center`}>Click on a playlist</h2>
 			)}
 			{playlists.map((el) => (
-				<PlayListCard key={el.playlistId} data={el} />
+				<PlayListCard key={el._id} data={el} />
 			))}
 		</>
 	);
