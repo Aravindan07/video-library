@@ -1,0 +1,52 @@
+.label {
+	color: #6b7280;
+	background: #fff;
+	position: absolute;
+	padding: 0px 5px;
+	transform: translate(15px, 27px) scale(1);
+	transform-origin: top left;
+	transition: all 0.2s ease-out;
+	cursor: text;
+}
+
+.transformed-label {
+	transform: translate(15px, 3px) scale(1);
+}
+
+.input-wrap {
+	width: 80%;
+	text-align: center;
+	position: relative;
+}
+
+.input-wrap:focus-within .label {
+	transform: translate(15px, 3px) scale(1);
+	color: #15b996;
+}
+
+.input {
+	width: 50%;
+	height: 50px;
+	margin: 15px 0px;
+	outline: none;
+	border: 2px solid #d2d2d2;
+	border-radius: 5px;
+	font-size: 18px;
+	padding: 15px;
+}
+
+.input::placeholder {
+	font-weight: 500;
+}
+
+.input:focus {
+	border: 2px solid var(--primary-color);
+}
+
+.focused-input {
+	border: 2px solid var(--primary-color);
+}
+
+.link-text {
+	text-decoration: none;
+}

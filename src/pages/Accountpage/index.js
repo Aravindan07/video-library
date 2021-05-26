@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SET__LOGOUT } from "../../constants";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
+import "./styles.css";
 
 export default function AccountPage() {
 	useDocumentTitle("Account | CricTube");
@@ -11,13 +12,24 @@ export default function AccountPage() {
 		email: "",
 		password: "",
 	};
+	const initialActive = {
+		isEmailActive: false,
+		isPasswordActive: false,
+	};
 	const [{ email, password }, setState] = useState(initialValues);
 	const { state, dispatch, logInUser } = useVideoDataContext();
+	const [{ isEmailActive, isPasswordActive }, setIsActive] = useState(initialActive);
 
-	const onChangeHandler = (event) => {
+	const onChangeHandler = (event, sentName) => {
 		const name = event.target.name;
 		const value = event.target.value;
-		return setState((prevState) => ({ ...prevState, [name]: value }));
+		const labelName = sentName;
+		setState((prevState) => ({ ...prevState, [name]: value }));
+		if (value !== "") {
+			return setIsActive((prevState) => ({ ...prevState, [labelName]: true }));
+		} else {
+			return setIsActive((prevState) => ({ ...prevState, [labelName]: false }));
+		}
 	};
 
 	const signInClickHandler = () => {
@@ -48,37 +60,67 @@ export default function AccountPage() {
 			) : (
 				<>
 					<h2>Login to your account</h2>
-					<input
-						type="text"
-						className="input__control mt-16 mb-16"
-						name="email"
-						value={email}
-						onChange={onChangeHandler}
-						placeholder="Enter your email"
-						required
-					/>
-					<input
-						type="password"
-						className="input__control mt-16 mb-16"
-						name="password"
-						value={password}
-						onChange={onChangeHandler}
-						placeholder="Enter your password"
-						required
-					/>
+					<div className="input-wrap mt-16">
+						<label
+							htmlFor="email"
+							className={`${isEmailActive ? "label transformed-label" : "label"}`}
+						>
+							Email
+						</label>
+						<input
+							type="text"
+							id="email"
+							className={`${
+								isEmailActive
+									? "input mt-16 mb-16 focused-input"
+									: "input mt-16 mb-16"
+							}`}
+							name="email"
+							value={email}
+							onChange={(e) => onChangeHandler(e, "isEmailActive")}
+							required
+						/>
+					</div>
+					<div className="input-wrap">
+						<label
+							htmlFor="password"
+							className={`${isPasswordActive ? "label transformed-label" : "label"}`}
+						>
+							Password
+						</label>
+						<input
+							type="password"
+							id="password"
+							className={`${
+								isPasswordActive
+									? "input mt-16 mb-16 focused-input"
+									: "input mt-16 mb-16"
+							}`}
+							name="password"
+							value={password}
+							onChange={(e) => onChangeHandler(e, "isPasswordActive")}
+							required
+						/>
+					</div>
 					<button
 						className="button navbar--button font-color--white mt-16 mb-16"
 						onClick={signInClickHandler}
 					>
 						Sign In
 					</button>
-					<p>
-						Don't have an account? <Link to="/register"> Register </Link>
+					<p className="mt-8 mb-8">
+						Don't have an account?
+						<Link
+							to="/register"
+							className="color-success ls-1 fw-600 ml-5 mr-5 link-text"
+						>
+							Register
+						</Link>
 						here
 					</p>
-					<p>Test Credentials</p>
-					<p>Email: check123@gmail.com</p>
-					<p>Password: check@123</p>
+					<p className="mt-8 fw-600">Test Credentials</p>
+					<p className="fw-600">Email: check123@gmail.com</p>
+					<p className="fw-600">Password: check@123</p>
 				</>
 			)}
 		</div>

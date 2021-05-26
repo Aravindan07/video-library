@@ -102,7 +102,7 @@ export default function VideoDataProvider({ children }) {
 				password,
 			});
 			dispatch({ type: Actions.SET__SIGNUP, payload: data });
-			toast.success("User registered successfully", {
+			toast.success("User Registered Successfully", {
 				style: { backgroundColor: "##15b996" },
 				autoClose: 2000,
 				hideProgressBar: true,
