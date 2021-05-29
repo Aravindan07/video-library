@@ -8,6 +8,7 @@ export const useLinks = () => {
 		{ name: "Liked Videos", path: `users/${state.user && state.user._id}/liked-videos` },
 		{ name: "Watch Later", path: `users/${state.user && state.user._id}/watch-later` },
 		{ name: "Saved Videos", path: `users/${state.user && state.user._id}/saved-videos` },
+		{ name: "History", path: `users/${state.user && state.user._id}/history` },
 		{ name: "My Account", path: "/my-account" },
 	];
 };

@@ -1,11 +1,12 @@
 import { Navigate, Route } from "react-router";
-import { useVideoDataContext } from "./context/videoDataContext";
+
+const checkAuthenticated = () => {
+	const userAuthenticated = localStorage.getItem("isAuthenticated");
+	return userAuthenticated;
+};
 
 export const PrivateRoute = ({ path, ...props }) => {
-	const {
-		state: { isAuthenticated },
-	} = useVideoDataContext();
-	return isAuthenticated ? (
+	return checkAuthenticated() ? (
 		<Route path={path} {...props} />
 	) : (
 		<Navigate state={{ from: path }} replace to="/my-account" />

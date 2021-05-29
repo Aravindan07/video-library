@@ -55,7 +55,9 @@ export default function RegisterPage() {
 		<div className="flex-col-center">
 			{state.isAuthenticated ? (
 				<>
-					<h2>Thanks for using our application. We hope you like us!</h2>
+					<h2 className="mt-16">
+						Thanks for using our application. We hope you like us!
+					</h2>
 					<button
 						className="button button--error font-color--white mt-16 mb-16"
 						onClick={logoutClickHandler}
@@ -66,7 +68,7 @@ export default function RegisterPage() {
 				</>
 			) : (
 				<>
-					<h2>Create your account</h2>
+					<h2 className="mt-16">Create your account</h2>
 					<div className="input-wrap mt-16">
 						<label
 							htmlFor="email"
@@ -77,11 +79,7 @@ export default function RegisterPage() {
 						<input
 							type="text"
 							id="email"
-							className={`${
-								isEmailActive
-									? "input mt-16 mb-16 focused-input"
-									: "input mt-16 mb-16"
-							}`}
+							className="input mt-16 mb-16"
 							name="email"
 							value={email}
 							onChange={(e) => onChangeHandler(e, "isEmailActive")}
@@ -98,11 +96,7 @@ export default function RegisterPage() {
 						<input
 							type="password"
 							id="password"
-							className={`${
-								isPasswordActive
-									? "input mt-16 mb-16 focused-input"
-									: "input mt-16 mb-16"
-							}`}
+							className="input mt-16 mb-16"
 							name="password"
 							value={password}
 							onChange={(e) => onChangeHandler(e, "isPasswordActive")}

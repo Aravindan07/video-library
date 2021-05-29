@@ -23,29 +23,25 @@ function PlayListCard({ data }) {
 
 	return (
 		<div
-			className={`playlist-card mt-16 mb-16 ${width <= 520 ? "" : "padding-r8"} c-pointer ${
-				width <= 520 ? "flex-col w100" : "flex-row"
-			}`}
 			onClick={showPlaylistVideos}
+			className={`${width <= 720 ? "playlist-card flex-col" : "playlist-card flex-row"}`}
 		>
 			<DeleteIcon
 				fill="var(--complementary-color)"
 				className="delete-icon"
 				onClick={deletePlaylistHandler}
 			/>
-			<img
-				src={
-					data.videos[0] && data.videos[0].imageUrl && data.videos[0].imageUrl
-						? data.videos[0].imageUrl
-						: "https://dummyimage.com/600x400/544e54/fff"
-				}
-				alt="Playlist thumbnail"
-			/>
-			<div
-				className={`flex-row-center content ${
-					width <= 520 ? "padding-t8 padding-b8" : "padding-l8"
-				}`}
-			>
+			<div className="playlist-img-div">
+				<img
+					src={
+						data.videos[0] && data.videos[0].imageUrl && data.videos[0].imageUrl
+							? data.videos[0].imageUrl
+							: "https://dummyimage.com/600x400/544e54/fff"
+					}
+					alt="Playlist thumbnail"
+				/>
+			</div>
+			<div className="playlist-details-div">
 				<h2 className="product__name ls-medium-px ls-medium-px mb-16">
 					{data.playlistName}
 				</h2>

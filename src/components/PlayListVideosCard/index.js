@@ -10,8 +10,13 @@ import "../VideoListingCard/styles.css";
 
 function PlayListVideosCard({ video, from, playlistId }) {
 	const navigate = useNavigate();
-	const { state, addOrRemoveFromWatchLater, addOrRemoveFromSavedVideos, playlistHandlers } =
-		useVideoDataContext();
+	const {
+		state,
+		addOrRemoveFromWatchLater,
+		addOrRemoveFromSavedVideos,
+		playlistHandlers,
+		addOrRemoveFromHistory,
+	} = useVideoDataContext();
 	const [width] = useMediaQuery();
 
 	const showVideoPage = () => {
@@ -25,6 +30,9 @@ function PlayListVideosCard({ video, from, playlistId }) {
 		}
 		if (from === "savedVideos") {
 			return addOrRemoveFromSavedVideos(state.user._id, video._id);
+		}
+		if (from === "history") {
+			return addOrRemoveFromHistory(state.user._id, video._id);
 		}
 		if (from === "playlistVideos") {
 			return playlistHandlers(

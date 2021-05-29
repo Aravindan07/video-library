@@ -7,3 +7,4 @@ export { default as PlaylistVideosPage } from "./PlaylistVideosPage";
 export { default as VideoPage } from "./VideoPage";
 export { default as WatchLaterPage } from "./WatchLaterPage";
 export { default as SavedVideosPage } from "./SavedVideosPage";
+export { default as HistoryPage } from "./HistoryPage";

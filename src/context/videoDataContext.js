@@ -15,11 +15,15 @@ export const initialState = {
 	playlists: [],
 	watchLater: [],
 	savedVideos: [],
+	history: [],
+	notes: [],
+	videoNote: {},
 	modal: {
 		isModalOpen: false,
 		modalType: "",
 		data: null,
 	},
+	isLoading: false,
 	openMobileMenu: false,
 	isAuthenticated: false,
 };
@@ -51,24 +55,32 @@ export default function VideoDataProvider({ children }) {
 
 	const loadVideosData = async () => {
 		try {
+			dispatch({ type: Actions.SET__LOADING, payload: true });
 			const { data } = await axios.get(`${REACT_APP_BACKEND_URL}/videos`);
 			dispatch({ type: Actions.LOAD__VIDEOS__DATA, payload: data });
+			dispatch({ type: Actions.SET__LOADING, payload: false });
 		} catch (error) {
 			console.error(error);
+			dispatch({ type: Actions.SET__LOADING, payload: false });
 		}
 	};
 
 	const loadUser = async () => {
 		try {
+			dispatch({ type: Actions.SET__LOADING, payload: true });
 			const { data } = await axios.get(`${REACT_APP_BACKEND_URL}/users`, TokenConfig());
 			dispatch({ type: Actions.LOAD__USER, payload: data });
+			dispatch({ type: Actions.SET__LOADING, payload: false });
 		} catch (error) {
+			dispatch({ type: Actions.SET__LOADING, payload: true });
 			console.error(error);
 			toast.error("Please Login/Register to continue", {
 				style: { backgroundColor: "var(--complementary-color)" },
 				autoClose: 2000,
 				hideProgressBar: true,
 			});
+			localStorage.removeItem("isAuthenticated");
+			dispatch({ type: Actions.SET__LOADING, payload: false });
 		}
 	};
 
@@ -80,7 +92,6 @@ export default function VideoDataProvider({ children }) {
 			});
 			dispatch({ type: Actions.SET__LOGIN, payload: data });
 			toast.success("Logged in successfully", {
-				style: { backgroundColor: "#15b996" },
 				autoClose: 2000,
 				hideProgressBar: true,
 			});
@@ -239,6 +250,44 @@ export default function VideoDataProvider({ children }) {
 		}
 	};
 
+	const addOrRemoveFromHistory = async (userId, videoId) => {
+		const { data } = await axios.post(
+			`${REACT_APP_BACKEND_URL}/users/${userId}/add-to-history`,
+			{ userId, videoId },
+			TokenConfig()
+		);
+		return dispatch({ type: Actions.ADD__OR__REMOVE__FROM__HISTORY, payload: data });
+	};
+
+	const addOrEditNotesHandler = async (userId, videoId, notes, noteId, type) => {
+		if (type === "add") {
+			const { data } = await axios.post(
+				`${REACT_APP_BACKEND_URL}/users/${userId}/${videoId}/add-notes`,
+				{ userId, videoId, notes },
+				TokenConfig()
+			);
+			dispatch({ type: Actions.ADD__OR__EDIT__OR__REMOVE__NOTES, payload: data });
+			return dispatch({ type: Actions.CLOSE__MODAL });
+		}
+		const { data } = await axios.put(
+			`${REACT_APP_BACKEND_URL}/users/${userId}/${videoId}/edit-notes`,
+			{ userId, noteId, newNote: notes },
+			TokenConfig()
+		);
+		dispatch({ type: Actions.ADD__OR__EDIT__OR__REMOVE__NOTES, payload: data });
+		return dispatch({ type: Actions.CLOSE__MODAL });
+	};
+
+	const deleteNoteHandler = async (userId, videoId) => {
+		const { data } = await axios.put(
+			`${REACT_APP_BACKEND_URL}/users/${userId}/${videoId}/delete-note`,
+			{ userId, videoId },
+			TokenConfig()
+		);
+		dispatch({ type: Actions.ADD__OR__EDIT__OR__REMOVE__NOTES, payload: data });
+		return dispatch({ type: Actions.CLOSE__MODAL });
+	};
+
 	return (
 		<VideoDataContext.Provider
 			value={{
@@ -253,6 +302,9 @@ export default function VideoDataProvider({ children }) {
 				addOrRemoveFromWatchLater,
 				addOrRemoveFromSavedVideos,
 				playlistHandlers,
+				addOrRemoveFromHistory,
+				addOrEditNotesHandler,
+				deleteNoteHandler,
 			}}
 		>
 			{children}

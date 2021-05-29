@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import YouTube from "react-youtube";
 import { ReactComponent as VideoViewsIcon } from "../../icons/video-view.svg";
@@ -7,6 +7,7 @@ import { ReactComponent as DislikesIcon } from "../../icons/thumbs-down.svg";
 import { ReactComponent as AddPlaylistIcon } from "../../icons/add-playlist.svg";
 import { ReactComponent as WatchLaterIcon } from "../../icons/watch-later.svg";
 import { ReactComponent as SaveIcon } from "../../icons/save-icon.svg";
+import { ReactComponent as NotesIcon } from "../../icons/notes.svg";
 import { useVideoDataContext } from "../../context/videoDataContext";
 import { OPEN__MODAL } from "../../constants";
 import { useMediaQuery } from "../../utils/useMediaQueries";
@@ -17,7 +18,7 @@ import {
 	checkWatchLater,
 	checkSavedVideos,
 } from "../../utils/helperFunctions";
-import { VideoListingCard } from "../../components";
+import { VideoListingCard, Notes } from "../../components";
 import "./styles.css";
 import { useDocumentTitle } from "../../utils/useDocumentTitle";
 
@@ -29,13 +30,20 @@ function VideoPage() {
 		likeClickHandler,
 		addOrRemoveFromWatchLater,
 		addOrRemoveFromSavedVideos,
+		addOrRemoveFromHistory,
 	} = useVideoDataContext();
+
 	const { videoId } = useParams();
+
 	const dataToShow =
 		state.videosData && state.videosData.find((item) => item.videoId === videoId);
+
+	const [showNotes, setShowNotes] = useState(false);
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
-	}, [dataToShow]);
+		return () => setShowNotes(false);
+	}, [dataToShow?._id]);
 
 	useDocumentTitle(`${dataToShow && dataToShow.name} | CricTube`);
 
@@ -53,6 +61,10 @@ function VideoPage() {
 			}
 		}
 		return navigate("/my-account");
+	};
+
+	const showNotesHandler = () => {
+		return setShowNotes(!showNotes);
 	};
 
 	const openModalHandler = () => {
@@ -79,6 +91,15 @@ function VideoPage() {
 		return navigate("/my-account");
 	};
 
+	const alreadyPresentInHistory = state.history.find((video) => video._id === dataToShow._id);
+
+	const addToHistoryHandler = (videoId) => {
+		if (alreadyPresentInHistory) {
+			return null;
+		}
+		return addOrRemoveFromHistory(state.user._id, videoId);
+	};
+
 	const opts = {
 		position: "absolute",
 		top: 0,
@@ -93,10 +114,12 @@ function VideoPage() {
 				<>
 					<YouTube
 						videoId={dataToShow.videoId}
-						id={dataToShow.id}
+						id={dataToShow._id}
 						className={`mt-8 w100 video-div br-10`}
 						opts={opts}
+						onPlay={() => addToHistoryHandler(dataToShow._id)}
 					/>
+
 					<div className="flex-row-space-between">
 						<div className="flex-col">
 							<p className="mt-16 font-18">{dataToShow.name}</p>
@@ -167,7 +190,13 @@ function VideoPage() {
 									onClick={() => savedVideosHandler()}
 								/>
 							</div>
-							<div className="flex-row-center c-pointer ml-16">
+							<div
+								className={`${
+									width <= 325
+										? "flex-row-center c-pointer mr-8 mt-8"
+										: "flex-row-center c-pointer ml-16"
+								}`}
+							>
 								<WatchLaterIcon
 									fill={
 										checkWatchLater(
@@ -182,9 +211,25 @@ function VideoPage() {
 									onClick={() => addVideoToWatchLater()}
 								/>
 							</div>
+							<div
+								className={`${
+									width <= 375
+										? "flex-row-center c-pointer ml-16 mt-8"
+										: "flex-row-center c-pointer ml-16"
+								}`}
+							>
+								<NotesIcon
+									fill={showNotes ? "var(--primary-color)" : "var(--font-color)"}
+									className="w-20 mr-8"
+									onClick={showNotesHandler}
+								/>
+							</div>
 						</div>
 					</div>
-					<p className="mt-8 mb-8">{dataToShow.description}</p>
+					<p className={`${width <= 425 ? "mt-16 mb-8 padding-t16" : "mt-8 mb-8"}`}>
+						{dataToShow.description}
+					</p>
+					{showNotes && <Notes notesData={dataToShow} />}
 				</>
 			)}
 			<hr className="mt-16 mb-8" />

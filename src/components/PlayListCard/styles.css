@@ -4,6 +4,43 @@
 	box-shadow: 0 0 1rem rgba(0, 0, 0, 0.25);
 	height: 200px;
 	position: relative;
+	margin: 1rem auto;
+}
+
+.playlist-img-div {
+	width: 50%;
+	height: 100%;
+}
+
+.playlist-img-div img {
+	width: 100%;
+	height: 100%;
+}
+
+.playlist-details-div {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+@media screen and (max-width: 720px) {
+	.playlist-card {
+		min-height: 400px;
+	}
+	.playlist-img-div {
+		width: 100%;
+		height: 200px;
+	}
+	.playlist-img-div img {
+		width: 100%;
+		height: 100%;
+	}
+	.playlist-details-div {
+		width: 100%;
+		height: 200px;
+	}
 }
 
 @media screen and (max-width: 520px) {

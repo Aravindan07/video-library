@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Navbar, Sidebar, Modal } from "./components";
+import { Navbar, Sidebar, Modal, Loader } from "./components";
 import { useVideoDataContext } from "./context/videoDataContext";
 import { useMediaQuery } from "./utils/useMediaQueries";
 import { toast, ToastContainer } from "react-toastify";
@@ -8,7 +8,7 @@ import AppRoutes from "./routes";
 import "./App.css";
 
 function App() {
-	const { loadVideosData, loadUser } = useVideoDataContext();
+	const { loadVideosData, loadUser, state } = useVideoDataContext();
 
 	useEffect(() => {
 		loadUser();
@@ -22,6 +22,7 @@ function App() {
 	return (
 		<div className="app__container">
 			<Navbar />
+			{state.isLoading && <Loader />}
 			<Sidebar />
 			<Modal />
 			<ToastContainer />

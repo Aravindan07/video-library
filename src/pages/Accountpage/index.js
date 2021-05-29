@@ -48,18 +48,22 @@ export default function AccountPage() {
 		<div className="flex-col-center">
 			{state.isAuthenticated ? (
 				<>
-					<h2>Thanks for using our application. We hope you like us!</h2>
+					<h2 className="mt-16">
+						Thanks for using our application. We hope you like us!
+					</h2>
 					<button
 						className="button button--error font-color--white mt-16 mb-16"
 						onClick={logoutClickHandler}
 					>
 						Logout
 					</button>
-					<Link to="/">Home</Link>
+					<Link to="/" className="color-success ls-1 fw-600 link-text">
+						Home
+					</Link>
 				</>
 			) : (
 				<>
-					<h2>Login to your account</h2>
+					<h2 className="mt-16">Login to your account</h2>
 					<div className="input-wrap mt-16">
 						<label
 							htmlFor="email"
@@ -70,11 +74,7 @@ export default function AccountPage() {
 						<input
 							type="text"
 							id="email"
-							className={`${
-								isEmailActive
-									? "input mt-16 mb-16 focused-input"
-									: "input mt-16 mb-16"
-							}`}
+							className="input mt-16 mb-16"
 							name="email"
 							value={email}
 							onChange={(e) => onChangeHandler(e, "isEmailActive")}
@@ -91,11 +91,7 @@ export default function AccountPage() {
 						<input
 							type="password"
 							id="password"
-							className={`${
-								isPasswordActive
-									? "input mt-16 mb-16 focused-input"
-									: "input mt-16 mb-16"
-							}`}
+							className="input mt-16 mb-16"
 							name="password"
 							value={password}
 							onChange={(e) => onChangeHandler(e, "isPasswordActive")}

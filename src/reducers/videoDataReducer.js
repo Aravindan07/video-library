@@ -12,6 +12,9 @@ export const videoDataReducer = (state, { type, payload }) => {
 			const isDislikedVideoFound =
 				state.dislikedVideos.length > 0 &&
 				state.dislikedVideos.find((el) => el._id === payload.clickedVideo);
+			const likedVideoFound =
+				state.likedVideos.length > 0 &&
+				state.likedVideos.find((el) => el._id === payload.clickedVideo);
 			return {
 				...state,
 				likedVideos: [...payload.item.videos],
@@ -19,36 +22,27 @@ export const videoDataReducer = (state, { type, payload }) => {
 					state.dislikedVideos.length > 0 &&
 					state.dislikedVideos.filter((el) => el._id !== payload.clickedVideo),
 				videosData: state.videosData.map((el) => {
-					if (
-						payload.item.videos.length > 0 &&
-						el._id === payload.item.videos[payload.item.videos.length - 1]._id
-					) {
-						return el._id === payload.item.videos[payload.item.videos.length - 1]._id
-							? {
-									...el,
-									likes: el.likes + 1,
-									dislikes:
-										el.dislikes >= 1 && isDislikedVideoFound
-											? el.dislikes - 1
-											: el.dislikes,
-							  }
-							: el;
+					if (el._id === payload.clickedVideo && !likedVideoFound) {
+						return {
+							...el,
+							likes: el.likes + 1,
+							dislikes:
+								el.dislikes >= 1 && isDislikedVideoFound
+									? el.dislikes - 1
+									: el.dislikes,
+						};
 					}
-					if (
-						payload.item.videos.length > 0 &&
-						el._id !== payload.item.videos[payload.item.videos.length - 1]._id
-					)
-						console.log("inside else");
-					return el._id === payload.clickedVideo
-						? {
-								...el,
-								likes: el.likes - 1,
-								dislikes:
-									el.dislikes >= 1 && isDislikedVideoFound
-										? el.dislikes - 1
-										: el.dislikes,
-						  }
-						: el;
+					if (el._id === payload.clickedVideo && likedVideoFound) {
+						return {
+							...el,
+							likes: el.likes - 1,
+							dislikes:
+								el.dislikes >= 1 && isDislikedVideoFound
+									? el.dislikes - 1
+									: el.dislikes,
+						};
+					}
+					return el;
 				}),
 			};
 
@@ -56,6 +50,9 @@ export const videoDataReducer = (state, { type, payload }) => {
 			const isLikedVideoFound =
 				state.likedVideos.length > 0 &&
 				state.likedVideos.find((el) => el._id === payload.clickedVideo);
+			const disLikedVideoFound =
+				state.dislikedVideos.length > 0 &&
+				state.dislikedVideos.find((el) => el._id === payload.clickedVideo);
 			return {
 				...state,
 				dislikedVideos: [...payload.item.videos],
@@ -63,27 +60,21 @@ export const videoDataReducer = (state, { type, payload }) => {
 					state.likedVideos.length > 0 &&
 					state.likedVideos.filter((el) => el._id !== payload.clickedVideo),
 				videosData: state.videosData.map((el) => {
-					if (
-						payload.item.videos.length > 0 &&
-						el._id === payload.item.videos[payload.item.videos.length - 1]._id
-					) {
-						console.log("inside if on Dislike");
+					if (el._id === payload.clickedVideo && !disLikedVideoFound) {
 						return {
 							...el,
 							dislikes: el.dislikes + 1,
 							likes: el.likes >= 1 && isLikedVideoFound ? el.likes - 1 : el.likes,
 						};
 					}
-					if (
-						payload.item.videos.length > 0 &&
-						el._id !== payload.item.videos[payload.item.videos.length - 1]._id
-					)
-						console.log("inside else on dislike");
-					return {
-						...el,
-						dislikes: el.dislikes - 1,
-						likes: el.likes >= 1 && isLikedVideoFound ? el.likes - 1 : el.likes,
-					};
+					if (el._id === payload.clickedVideo && disLikedVideoFound) {
+						return {
+							...el,
+							dislikes: el.dislikes - 1,
+							likes: el.likes >= 1 && isLikedVideoFound ? el.likes - 1 : el.likes,
+						};
+					}
+					return el;
 				}),
 			};
 
@@ -139,6 +130,7 @@ export const videoDataReducer = (state, { type, payload }) => {
 
 		case Actions.SET__LOGIN:
 			localStorage.setItem("token", payload.token);
+			localStorage.setItem("isAuthenticated", true);
 			return {
 				...state,
 				isAuthenticated: true,
@@ -151,10 +143,12 @@ export const videoDataReducer = (state, { type, payload }) => {
 					payload.user.savedVideos.length > 0 ? payload.user.savedVideos[0].videos : [],
 				playlists:
 					payload.user.playlists.length > 0 ? payload.user.playlists[0].playlists : [],
+				history: payload.user.history.length > 0 ? payload.user.history[0].videos : [],
 			};
 
 		case Actions.SET__SIGNUP:
 			localStorage.setItem("token", payload.token);
+			localStorage.setItem("isAuthenticated", true);
 			return {
 				...state,
 				isAuthenticated: true,
@@ -178,14 +172,34 @@ export const videoDataReducer = (state, { type, payload }) => {
 					payload.user.savedVideos.length > 0 ? payload.user.savedVideos[0].videos : [],
 				playlists:
 					payload.user.playlists.length > 0 ? payload.user.playlists[0].playlists : [],
+				history: payload.user.history.length > 0 ? payload.user.history[0].videos : [],
 			};
 
 		case Actions.SET__LOGOUT:
 			localStorage.removeItem("token");
+			localStorage.removeItem("isAuthenticated");
 			return {
 				...state,
 				user: null,
 				isAuthenticated: false,
+			};
+
+		case Actions.SET__LOADING:
+			return {
+				...state,
+				isLoading: payload,
+			};
+
+		case Actions.ADD__OR__REMOVE__FROM__HISTORY:
+			return {
+				...state,
+				history: [...payload.item.videos],
+			};
+
+		case Actions.ADD__OR__EDIT__OR__REMOVE__NOTES:
+			return {
+				...state,
+				notes: [...payload.item.notes],
 			};
 
 		default:

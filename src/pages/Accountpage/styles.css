@@ -35,6 +35,12 @@
 	padding: 15px;
 }
 
+@media screen and (max-width: 551px) {
+	.input {
+		width: 100%;
+	}
+}
+
 .input::placeholder {
 	font-weight: 500;
 }
@@ -44,6 +50,34 @@
 }
 
 .focused-input {
+	border: 2px solid var(--primary-color);
+}
+
+.text-area-wrap {
+	width: 100%;
+	text-align: center;
+	position: relative;
+}
+
+.text-area-wrap:focus-within .label {
+	transform: translate(15px, 3px) scale(1);
+	color: #15b996;
+}
+
+.text-area {
+	width: 100%;
+	outline: none;
+	border: 2px solid #d2d2d2;
+	border-radius: 5px;
+	font-size: 18px;
+	padding: 15px;
+}
+
+.text-area::placeholder {
+	font-weight: 500;
+}
+
+.text-area:focus {
 	border: 2px solid var(--primary-color);
 }
 

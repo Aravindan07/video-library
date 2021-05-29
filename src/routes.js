@@ -11,6 +11,7 @@ import {
 	AccountPage,
 	RegisterPage,
 	SavedVideosPage,
+	HistoryPage,
 } from "./pages";
 
 function AppRoutes() {
@@ -21,6 +22,7 @@ function AppRoutes() {
 			<PrivateRoute exact path="/users/:userId/liked-videos" element={<LikedVideosPage />} />
 			<PrivateRoute exact path="/users/:userId/watch-later" element={<WatchLaterPage />} />
 			<PrivateRoute exact path="/users/:userId/saved-videos" element={<SavedVideosPage />} />
+			<PrivateRoute exact path="/users/:userId/history" element={<HistoryPage />} />
 			<Route path="/my-account" element={<AccountPage />} />
 			<Route path="/register" element={<RegisterPage />} />
 			<Route path="/video/:videoId" element={<VideoPage />} />
@@ -29,6 +31,7 @@ function AppRoutes() {
 				path="/users/:userId/my-playlists/:playlistId"
 				element={<PlaylistVideosPage />}
 			/>
+			<Route path="*" element={<h2>This page is not found!</h2>} />
 		</Routes>
 	);
 }
