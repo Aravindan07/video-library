@@ -52,7 +52,7 @@ function Navbar() {
 								</button>
 							</Link>
 
-							<Link to="/my-account">
+							<Link to="/register">
 								<button className="button navbar--button ml-16 font-color--white">
 									Register
 								</button>
